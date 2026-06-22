@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+dist
+.DS_Store
+*.log
+*.tsbuildinfo
+.env*
+
+# Large local Unity WebGL builds are hosted externally.
+public/assets/games/mulan/MulanWeb/
+public/assets/games/mulan/MulanWeb.zip
+public/assets/games/mulan/木兰之外网页版/
