@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import type { Project } from "@/data/site";
@@ -80,7 +80,9 @@ export function ProjectDetail({ project }: { project: Project }) {
         {project.playableDemo && (
           <ProjectPlayableDemoSection
             title={t(project.playableDemo.title)}
+            subtitle={project.playableDemo.subtitle ? t(project.playableDemo.subtitle) : undefined}
             url={project.playableDemo.url}
+            actionLabel={project.playableDemo.actionLabel ? t(project.playableDemo.actionLabel) : undefined}
             note={t(project.playableDemo.note)}
             light={isLightTheme}
             underlineColor={project.theme?.underline}
@@ -307,27 +309,24 @@ function ProjectVideoSection({
 
 function ProjectPlayableDemoSection({
   title,
+  subtitle,
   url,
+  actionLabel = "Play Now",
   note,
   light,
   underlineColor = "#5CF5F8"
 }: {
   title: string;
+  subtitle?: string;
   url: string;
+  actionLabel?: string;
   note: string;
   light: boolean;
   underlineColor?: string;
 }) {
-  const { locale } = useLanguage();
-  const frameShellRef = useRef<HTMLDivElement | null>(null);
-
-  const requestDemoFullscreen = () => {
-    void frameShellRef.current?.requestFullscreen?.();
-  };
-
   return (
     <section className="relative left-1/2 mt-20 w-screen -translate-x-1/2 px-3 sm:px-5 lg:px-8">
-      <div className="mx-auto max-w-[96rem]">
+      <div className="mx-auto max-w-5xl">
         <div className="mb-8 text-center">
           <span
             className={cn("inline-flex flex-col items-center text-2xl font-medium sm:text-3xl", light ? "text-black" : "text-white")}
@@ -342,41 +341,55 @@ function ProjectPlayableDemoSection({
               transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
             />
           </span>
-          <p className={cn("mx-auto mt-5 max-w-2xl text-sm leading-6", light ? "text-black/58" : "text-white/56")}>{note}</p>
+          {subtitle && (
+            <p className={cn("mx-auto mt-5 max-w-2xl text-base leading-7 sm:text-lg", light ? "text-black/68" : "text-white/66")}>
+              {subtitle}
+            </p>
+          )}
         </div>
 
-        <div
-          ref={frameShellRef}
+        <motion.div
+          initial={{ opacity: 0, y: 18, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-12% 0px" }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            "overflow-hidden rounded-[10px] p-2 shadow-[0_40px_140px_rgba(0,0,0,0.34)]",
-            light ? "bg-black/[0.06]" : "border border-white/10 bg-white/[0.035]"
+            "relative overflow-hidden rounded-[12px] px-6 py-10 text-center shadow-[0_40px_140px_rgba(0,0,0,0.34)] sm:px-10 sm:py-12",
+            light ? "border border-black/10 bg-white/60" : "border border-white/10 bg-white/[0.04]"
           )}
         >
-          <div className="flex items-center justify-between gap-3 border-b border-white/10 px-3 py-2">
-            <span className={cn("text-xs tracking-[0.18em]", light ? "text-black/52" : "text-white/46")}>WEBGL BUILD</span>
-            <button
-              type="button"
-              onClick={requestDemoFullscreen}
+          <div
+            aria-hidden="true"
+            className={cn(
+              "pointer-events-none absolute inset-x-10 top-0 h-px",
+              light ? "bg-gradient-to-r from-transparent via-black/24 to-transparent" : "bg-gradient-to-r from-transparent via-white/24 to-transparent"
+            )}
+          />
+          <div
+            aria-hidden="true"
+            className={cn(
+              "pointer-events-none absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl",
+              light ? "bg-cyan-300/24" : "bg-cyan-300/16"
+            )}
+          />
+          <div className="relative">
+            <p className={cn("text-xs uppercase tracking-[0.28em]", light ? "text-black/44" : "text-white/42")}>WebGL Demo</p>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(
-                "rounded-full px-3 py-1.5 text-xs transition",
+                "mt-7 inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-medium tracking-[0.08em] shadow-[0_18px_60px_rgba(92,245,248,0.2)] transition duration-300 active:scale-[0.98] sm:px-10 sm:text-lg",
                 light
-                  ? "border border-black/12 bg-white/50 text-black/70 hover:bg-white"
-                  : "border border-white/12 bg-white/[0.06] text-white/76 hover:bg-white/[0.12]"
+                  ? "border border-black/12 bg-black text-white hover:shadow-[0_22px_80px_rgba(0,0,0,0.22)]"
+                  : "border border-white/14 bg-white/[0.08] text-white backdrop-blur hover:border-cyan-200/40 hover:bg-white/[0.12] hover:shadow-[0_22px_90px_rgba(92,245,248,0.28)]"
               )}
             >
-              {locale === "zh" ? "全屏试玩" : "Fullscreen"}
-            </button>
+              {actionLabel}
+            </a>
+            <p className={cn("mx-auto mt-6 max-w-xl text-sm leading-6", light ? "text-black/54" : "text-white/52")}>{note}</p>
           </div>
-          <div className="h-[520px] max-h-[82vh] overflow-hidden rounded-b-[8px] bg-black sm:h-[640px] lg:h-[720px]">
-            <iframe
-              src={url}
-              title={title}
-              className="h-full w-full border-0"
-              allow="fullscreen; autoplay; gamepad; clipboard-read; clipboard-write"
-              allowFullScreen
-            />
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

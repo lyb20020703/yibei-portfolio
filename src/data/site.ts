@@ -25,7 +25,9 @@ export type Project = {
   media?: ProjectMedia;
   playableDemo?: {
     title: LocalizedText;
+    subtitle?: LocalizedText;
     url: string;
+    actionLabel?: LocalizedText;
     note: LocalizedText;
   };
   theme?: {
@@ -311,8 +313,10 @@ export const projects: Project[] = [
     },
     playableDemo: {
       title: { zh: "试玩 Demo", en: "Playable Demo" },
+      subtitle: { zh: "体验《木兰之外》WebGL 试玩版本", en: "Experience the WebGL demo version of Beyond Mulan" },
       url: "https://yibeilou.itch.io/mulan",
-      note: { zh: "建议使用电脑端体验，点击右上角可进入全屏试玩。", en: "Desktop experience recommended. Use the top-right button for fullscreen play." }
+      actionLabel: { zh: "立即试玩", en: "Play Now" },
+      note: { zh: "建议使用电脑端体验完整内容。", en: "Desktop is recommended for the full experience." }
     }
   },
   {
