@@ -324,6 +324,8 @@ function ProjectPlayableDemoSection({
   light: boolean;
   underlineColor?: string;
 }) {
+  const { locale } = useLanguage();
+
   return (
     <section className="relative left-1/2 mt-20 w-screen -translate-x-1/2 px-3 sm:px-5 lg:px-8">
       <div className="mx-auto max-w-5xl">
@@ -373,7 +375,9 @@ function ProjectPlayableDemoSection({
             )}
           />
           <div className="relative">
-            <p className={cn("text-xs uppercase tracking-[0.28em]", light ? "text-black/44" : "text-white/42")}>WebGL Demo</p>
+            <p className={cn("text-xs uppercase tracking-[0.28em]", light ? "text-black/44" : "text-white/42")}>
+              {locale === "zh" ? "跳转 itch.io" : "Open itch.io"}
+            </p>
             <a
               href={url}
               target="_blank"
