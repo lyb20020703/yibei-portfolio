@@ -153,6 +153,7 @@ export function ProjectDetail({ project }: { project: Project }) {
                   images={item.images ?? (item.src ? [item.src] : [])}
                   underlineColor={project.theme?.underline ?? "#5CF5F8"}
                   titleColor={project.theme?.text ?? "#ffffff"}
+                  contained
                 />
               )
             ))}
@@ -181,12 +182,14 @@ function DetailGallerySection({
   title,
   images,
   underlineColor,
-  titleColor
+  titleColor,
+  contained = false
 }: {
   title?: string;
   images: string[];
   underlineColor: string;
   titleColor: string;
+  contained?: boolean;
 }) {
   return (
     <motion.figure
@@ -194,7 +197,7 @@ function DetailGallerySection({
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-12% 0px" }}
       transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-      className="mx-auto w-full max-w-[92rem]"
+      className={cn("mx-auto", contained ? "w-[92vw] max-w-[84rem]" : "w-full max-w-[92rem]")}
     >
       {title && <SectionCaption title={title} titleColor={titleColor} underlineColor={underlineColor} />}
       <div className="space-y-8 sm:space-y-10">
