@@ -514,7 +514,13 @@ export const projects: Project[] = [
         title: { zh: "时空叠影项目视频", en: "Space-Time Overlap project video" },
         aspect: "wide"
       }
-    }
+    },
+    gallery: [
+      {
+        title: { zh: "设计过程", en: "Design Process" },
+        src: "/assets/uiux/space-time-overlap/gallery/时空叠影.png"
+      }
+    ]
   },
   {
     slug: "adapt-u",

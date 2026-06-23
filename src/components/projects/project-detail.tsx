@@ -135,6 +135,30 @@ export function ProjectDetail({ project }: { project: Project }) {
           />
         )}
 
+        {!isGalleryOnly && project.gallery && (
+          <section className="relative left-1/2 mt-20 w-screen -translate-x-1/2 space-y-16 px-4 sm:space-y-24 sm:px-6 lg:px-8">
+            {project.gallery.map((item) => (
+              item.layout === "grid" ? (
+                <DetailGridGallerySection
+                  key={item.images?.join("-")}
+                  title={item.title ? t(item.title) : undefined}
+                  images={item.images ?? (item.src ? [item.src] : [])}
+                  underlineColor={project.theme?.underline ?? "#5CF5F8"}
+                  titleColor={project.theme?.text ?? "#ffffff"}
+                />
+              ) : (
+                <DetailGallerySection
+                  key={item.src ?? item.images?.join("-")}
+                  title={item.title ? t(item.title) : undefined}
+                  images={item.images ?? (item.src ? [item.src] : [])}
+                  underlineColor={project.theme?.underline ?? "#5CF5F8"}
+                  titleColor={project.theme?.text ?? "#ffffff"}
+                />
+              )
+            ))}
+          </section>
+        )}
+
         {!isGalleryOnly && project.details?.sections && (
           <div className="mx-auto mt-16 max-w-4xl space-y-10">
             {project.details.sections.map((section) => (
