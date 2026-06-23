@@ -180,7 +180,11 @@ export const siteCopy = {
     }
   },
   home: {
-    worksTitle: { zh: "我的作品", en: "My Portfolio" }
+    worksTitle: { zh: "我的作品", en: "My Portfolio" },
+    worksNote: {
+      zh: "部分项目在线视频与游戏 Demo 托管于海外平台，若加载缓慢，请尝试科学上网。",
+      en: "Some project videos and game demos are hosted on overseas platforms. If content loads slowly, please try using a network environment with international access."
+    }
   },
   about: {
     title: { zh: "关于我", en: "About" },
