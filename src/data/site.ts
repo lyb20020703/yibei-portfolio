@@ -324,7 +324,7 @@ export const projects: Project[] = [
     category: "games",
     title: { zh: "Let Her Talk", en: "Let Her Talk" },
     date: "2024.12",
-    tags: { zh: ["桌游", "体验设计", "AR"], en: ["Board game", "Experience design", "AR"] },
+    tags: { zh: ["桌游", "体验设计", "思辨设计", "AR"], en: ["Board game", "Experience design", "Speculative Design", "AR"] },
     excerpt: {
       zh: "一款以语言为核心机制的互动桌游。玩家通过完成语言与表达相关的挑战，争夺“发声权”。",
       en: "An interactive board game built around language as its core mechanic. Players complete challenges related to language and expression to compete for the right to speak."
