@@ -15,7 +15,7 @@ export function WorkSection() {
           <div className="mb-14 max-w-3xl">
             <p className="text-xs uppercase tracking-[0.34em] text-white/36">Selected Work</p>
             <h2 className="mt-4 text-3xl font-medium text-white sm:text-5xl">{t(siteCopy.home.worksTitle)}</h2>
-            <p className="mt-4 max-w-2xl text-center text-sm font-light leading-6 text-white/64">
+            <p className="mt-4 max-w-2xl text-sm font-light leading-6 text-white/64">
               {t(siteCopy.home.worksNote)}
             </p>
           </div>
