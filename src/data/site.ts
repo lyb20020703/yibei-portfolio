@@ -199,8 +199,8 @@ export const projects: Project[] = [
     title: { zh: "木兰之外", en: "Beyond Mulan" },
     date: "2026.06",
     tags: {
-      zh: ["vibe coding", "叙事游戏", "剧情解谜", "个人项目"],
-      en: ["Vibe coding", "Narrative game", "Story puzzle", "Personal project"]
+      zh: ["vibe coding", "叙事游戏", "剧情解谜"],
+      en: ["Vibe coding", "Narrative game", "Story puzzle"]
     },
     excerpt: {
       zh: "一款以经典乐府诗《木兰辞》为原型的 2D 横版叙事解谜游戏。玩家将扮演现代高中生“许笛”，意外穿越至北魏时期，逐步发现自己正置身于“木兰”的人生轨迹之中。",
@@ -408,7 +408,7 @@ export const projects: Project[] = [
     category: "uiux",
     title: { zh: "Vyoga", en: "Vyoga" },
     date: "2025.12",
-    tags: { zh: ["UI/UX设计", "品牌形象设计"], en: ["UI/UX design", "Brand identity"] },
+    tags: { zh: ["UI/UX设计", "品牌形象设计", "小组合作项目"], en: ["UI/UX design", "Brand identity", "Team Project"] },
     excerpt: { zh: "面向 Z 世代的轻瑜伽学习产品。", en: "A lightweight yoga learning product for Gen Z." },
     cover: { tone: "violet", label: "U01" },
     assets: withProjectMedia(projectAssets("uiux", "vyoga"), {
@@ -569,7 +569,7 @@ export const projects: Project[] = [
     category: "visual",
     title: { zh: "风起之城", en: "Auralis" },
     date: "2025.11",
-    tags: { zh: ["迪士尼挑战赛", "角色原画"], en: ["Disney challenge", "Character concept"] },
+    tags: { zh: ["迪士尼挑战赛", "角色原画", "小组合作项目"], en: ["Disney challenge", "Character concept", "Team Project"] },
     excerpt: { zh: "从无声的荒原，到星球的和鸣。", en: "From a silent wasteland to the harmony of a planet." },
     cover: { tone: "green", label: "V01" },
     assets: withProjectMedia(projectAssets("visual", "auralis"), {
