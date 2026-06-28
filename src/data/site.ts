@@ -156,7 +156,7 @@ export const categories: Category[] = [
     label: { zh: "视频", en: "Videos" },
     href: "/#ai-films",
     description: {
-      zh: "使用 AI 影像流程探索短片与公益叙事。",
+      zh: "通过影像设计与故事叙事，创造具有感染力的用户体验。",
       en: "Short-form and public-interest stories explored through AI film workflows."
     }
   },
