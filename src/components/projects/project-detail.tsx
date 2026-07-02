@@ -167,7 +167,10 @@ export function ProjectDetail({ project }: { project: Project }) {
                   transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <DetailGallerySection
-                    images={project.galleryTabs.researchImages}
+                    images={project.galleryTabs.researchItems.map((item) => item.src)}
+                    descriptions={project.galleryTabs.researchItems.map((item) =>
+                      item.description ? t(item.description) : undefined
+                    )}
                     underlineColor={project.theme?.underline ?? "#5CF5F8"}
                     titleColor={project.theme?.text ?? "#ffffff"}
                   />
@@ -303,12 +306,14 @@ function ProjectGalleryTabs({
 function DetailGallerySection({
   title,
   images,
+  descriptions,
   underlineColor,
   titleColor,
   contained = false
 }: {
   title?: string;
   images: string[];
+  descriptions?: Array<string | undefined>;
   underlineColor: string;
   titleColor: string;
   contained?: boolean;
@@ -322,17 +327,24 @@ function DetailGallerySection({
       className={cn("mx-auto", contained ? "w-[92vw] max-w-[84rem]" : "w-full max-w-[92rem]")}
     >
       {title && <SectionCaption title={title} titleColor={titleColor} underlineColor={underlineColor} />}
-      <div className="space-y-8 sm:space-y-10">
+      <div className={cn(descriptions ? "space-y-20 sm:space-y-28" : "space-y-8 sm:space-y-10")}>
         {images.map((src, index) => (
-          <div key={src} className="overflow-hidden rounded-[8px] bg-black/5 shadow-[0_28px_100px_rgba(0,0,0,0.18)]">
-            <Image
-              src={src}
-              alt={title ? (images.length > 1 ? `${title} ${index + 1}` : title) : `Gallery image ${index + 1}`}
-              width={2200}
-              height={1400}
-              sizes="(min-width: 1536px) 1472px, calc(100vw - 32px)"
-              className="h-auto w-full object-contain"
-            />
+          <div key={src} className={cn(descriptions && "space-y-6 sm:space-y-8")}>
+            {descriptions?.[index] && (
+              <p className="text-left text-xl font-normal leading-9" style={{ color: titleColor }}>
+                {descriptions[index]}
+              </p>
+            )}
+            <div className="overflow-hidden rounded-[8px] bg-black/5 shadow-[0_28px_100px_rgba(0,0,0,0.18)]">
+              <Image
+                src={src}
+                alt={title ? (images.length > 1 ? `${title} ${index + 1}` : title) : `Gallery image ${index + 1}`}
+                width={2200}
+                height={1400}
+                sizes="(min-width: 1536px) 1472px, calc(100vw - 32px)"
+                className="h-auto w-full object-contain"
+              />
+            </div>
           </div>
         ))}
       </div>

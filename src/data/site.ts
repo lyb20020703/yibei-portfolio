@@ -39,7 +39,10 @@ export type Project = {
   galleryTabs?: {
     showcaseLabel: LocalizedText;
     researchLabel: LocalizedText;
-    researchImages: string[];
+    researchItems: Array<{
+      src: string;
+      description?: LocalizedText;
+    }>;
   };
   gallery?: Array<{
     title?: LocalizedText;
@@ -435,10 +438,64 @@ export const projects: Project[] = [
     galleryTabs: {
       showcaseLabel: { zh: "作品展示", en: "Project Showcase" },
       researchLabel: { zh: "产品调研", en: "Product Research" },
-      researchImages: Array.from(
-        { length: 10 },
-        (_, index) => `/assets/uiux/vyoga/gallery/research${index + 1}.png`
-      )
+      researchItems: [
+        {
+          src: "/assets/uiux/vyoga/gallery/research1.png",
+          description: {
+            zh: "做瑜伽的成本太高了！就像练跆拳道需要走到道馆、换上道服一样；做瑜伽也需要在一个祥和的午后、一个宽敞的房间、一套专业的装备、一种预备好的心情里。",
+            en: "做瑜伽的成本太高了！就像练跆拳道需要走到道馆、换上道服一样；做瑜伽也需要在一个祥和的午后、一个宽敞的房间、一套专业的装备、一种预备好的心情里。"
+          }
+        },
+        {
+          src: "/assets/uiux/vyoga/gallery/research2.png",
+          description: {
+            zh: "作为一个大学生，我的时间被课程、小组作业、临时会议切割，我的责任增加，我必须优先考虑学业职业发展，当时间精力有限时，运动就会被排在末尾；当我刚有经济能力时，会对价格十分敏感。",
+            en: "作为一个大学生，我的时间被课程、小组作业、临时会议切割，我的责任增加，我必须优先考虑学业职业发展，当时间精力有限时，运动就会被排在末尾；当我刚有经济能力时，会对价格十分敏感。"
+          }
+        },
+        {
+          src: "/assets/uiux/vyoga/gallery/research3.png",
+          description: {
+            zh: "大学生认可运动的核心价值，但是实际行动却明显跟不上——72%的人希望规律运动，但只有28%的人能每周运动三次以上。",
+            en: "大学生认可运动的核心价值，但是实际行动却明显跟不上——72%的人希望规律运动，但只有28%的人能每周运动三次以上。"
+          }
+        },
+        {
+          src: "/assets/uiux/vyoga/gallery/research4.png",
+          description: {
+            zh: "从高压的中学进入自由的大学，时间却更加碎片化，经济更加敏感，对自主安排更加渴望。",
+            en: "从高压的中学进入自由的大学，时间却更加碎片化，经济更加敏感，对自主安排更加渴望。"
+          }
+        },
+        {
+          src: "/assets/uiux/vyoga/gallery/research5.png",
+          description: { zh: "定性定量研究", en: "定性定量研究" }
+        },
+        {
+          src: "/assets/uiux/vyoga/gallery/research6.png",
+          description: { zh: "用户洞察", en: "用户洞察" }
+        },
+        {
+          src: "/assets/uiux/vyoga/gallery/research7.png"
+        },
+        {
+          src: "/assets/uiux/vyoga/gallery/research8.png",
+          description: {
+            zh: "再回到刚才的问题上，运动为什么离我们越来越远，我给出的答案是因为运动成本不断上升。",
+            en: "再回到刚才的问题上，运动为什么离我们越来越远，我给出的答案是因为运动成本不断上升。"
+          }
+        },
+        {
+          src: "/assets/uiux/vyoga/gallery/research9.png"
+        },
+        {
+          src: "/assets/uiux/vyoga/gallery/research10.png",
+          description: {
+            zh: "所以，我们项目的全部努力，就是为了降低瑜伽的启动成本，一种能塞进课间十分钟、在宿舍一隅就能发生、无需昂贵装备、更没有心理负担，只要一个念头就能轻松开始的，身心游戏。",
+            en: "所以，我们项目的全部努力，就是为了降低瑜伽的启动成本，一种能塞进课间十分钟、在宿舍一隅就能发生、无需昂贵装备、更没有心理负担，只要一个念头就能轻松开始的，身心游戏。"
+          }
+        }
+      ]
     },
     gallery: [
       {
