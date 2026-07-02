@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import type { Project } from "@/data/site";
 import { getCategory } from "@/data/site";
 import { useLanguage } from "@/context/language-context";
@@ -18,6 +18,7 @@ const toneClass: Record<Project["cover"]["tone"], string> = {
 
 export function ProjectDetail({ project }: { project: Project }) {
   const { t, locale } = useLanguage();
+  const [activeGalleryTab, setActiveGalleryTab] = useState<"showcase" | "research">("showcase");
   const category = getCategory(project.category);
   const isGalleryOnly = project.detailMode === "gallery-only";
   const isLightTheme = project.theme?.text === "#000000";
@@ -77,6 +78,16 @@ export function ProjectDetail({ project }: { project: Project }) {
           </p>
         </motion.header>
 
+        {project.galleryTabs && (
+          <ProjectGalleryTabs
+            showcaseLabel={t(project.galleryTabs.showcaseLabel)}
+            researchLabel={t(project.galleryTabs.researchLabel)}
+            activeTab={activeGalleryTab}
+            onChange={setActiveGalleryTab}
+            accentColor={project.theme?.underline ?? "#5CF5F8"}
+          />
+        )}
+
         {project.playableDemo && (
           <ProjectPlayableDemoSection
             title={t(project.playableDemo.title)}
@@ -91,7 +102,7 @@ export function ProjectDetail({ project }: { project: Project }) {
 
         {project.levelFlow && <LevelFlowModule project={project} />}
 
-        {isGalleryOnly && project.gallery && (
+        {isGalleryOnly && project.gallery && !project.galleryTabs && (
           <section className="relative left-1/2 w-screen -translate-x-1/2 space-y-16 px-4 pt-2 sm:space-y-24 sm:px-6 lg:px-8">
             {project.gallery.map((item) => (
               item.layout === "grid" ? (
@@ -104,18 +115,69 @@ export function ProjectDetail({ project }: { project: Project }) {
                 />
               ) : (
                 <DetailGallerySection
-                key={item.src ?? item.images?.join("-")}
-                title={item.title ? t(item.title) : undefined}
-                images={item.images ?? (item.src ? [item.src] : [])}
-                underlineColor={project.theme?.underline ?? "#561134"}
-                titleColor={project.theme?.text ?? "#000000"}
-              />
+                  key={item.src ?? item.images?.join("-")}
+                  title={item.title ? t(item.title) : undefined}
+                  images={item.images ?? (item.src ? [item.src] : [])}
+                  underlineColor={project.theme?.underline ?? "#561134"}
+                  titleColor={project.theme?.text ?? "#000000"}
+                />
               )
             ))}
           </section>
         )}
 
-        {isGalleryOnly && project.media?.videoEmbed && (
+        {isGalleryOnly && project.gallery && project.galleryTabs && (
+          <section className="relative left-1/2 w-screen -translate-x-1/2 px-4 pt-2 sm:px-6 lg:px-8">
+            <AnimatePresence mode="wait" initial={false}>
+              {activeGalleryTab === "showcase" ? (
+                <motion.div
+                  key="showcase"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                  className="space-y-16 sm:space-y-24"
+                >
+                  {project.gallery.map((item) => (
+                    item.layout === "grid" ? (
+                      <DetailGridGallerySection
+                        key={item.images?.join("-")}
+                        title={item.title ? t(item.title) : undefined}
+                        images={item.images ?? (item.src ? [item.src] : [])}
+                        underlineColor={project.theme?.underline ?? "#561134"}
+                        titleColor={project.theme?.text ?? "#000000"}
+                      />
+                    ) : (
+                      <DetailGallerySection
+                        key={item.src ?? item.images?.join("-")}
+                        title={item.title ? t(item.title) : undefined}
+                        images={item.images ?? (item.src ? [item.src] : [])}
+                        underlineColor={project.theme?.underline ?? "#561134"}
+                        titleColor={project.theme?.text ?? "#000000"}
+                      />
+                    )
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="research"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <DetailGallerySection
+                    images={project.galleryTabs.researchImages}
+                    underlineColor={project.theme?.underline ?? "#5CF5F8"}
+                    titleColor={project.theme?.text ?? "#ffffff"}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </section>
+        )}
+
+        {isGalleryOnly && project.media?.videoEmbed && (!project.galleryTabs || activeGalleryTab === "showcase") && (
           <ProjectVideoSection
             title={t(project.media.videoEmbed.title)}
             url={project.media.videoEmbed.url}
@@ -175,6 +237,66 @@ export function ProjectDetail({ project }: { project: Project }) {
         )}
       </div>
     </article>
+  );
+}
+
+function ProjectGalleryTabs({
+  showcaseLabel,
+  researchLabel,
+  activeTab,
+  onChange,
+  accentColor
+}: {
+  showcaseLabel: string;
+  researchLabel: string;
+  activeTab: "showcase" | "research";
+  onChange: (tab: "showcase" | "research") => void;
+  accentColor: string;
+}) {
+  const tabs = [
+    { key: "showcase" as const, label: showcaseLabel },
+    { key: "research" as const, label: researchLabel }
+  ];
+
+  return (
+    <div className="mb-14 flex justify-center sm:mb-16">
+      <div
+        role="tablist"
+        aria-label={`${showcaseLabel} / ${researchLabel}`}
+        className="flex w-full max-w-md gap-1 rounded-[8px] border border-white/12 bg-white/[0.04] p-1 backdrop-blur-xl"
+      >
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab.key;
+
+          return (
+            <button
+              key={tab.key}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => onChange(tab.key)}
+              className={cn(
+                "focus-ring relative min-h-11 flex-1 rounded-[6px] px-4 py-2 text-sm font-medium transition-colors",
+                isActive ? "text-black" : "text-white/58 hover:bg-white/[0.05] hover:text-white/84"
+              )}
+            >
+              {isActive && (
+                <motion.span
+                  layoutId="project-gallery-active-tab"
+                  className="absolute inset-0 rounded-[6px]"
+                  style={{
+                    backgroundColor: accentColor,
+                    boxShadow: `0 0 24px ${accentColor}38`
+                  }}
+                  transition={{ type: "spring", stiffness: 380, damping: 34 }}
+                />
+              )}
+              <span className="relative z-10">{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 

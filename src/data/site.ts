@@ -36,6 +36,11 @@ export type Project = {
     underline?: string;
   };
   detailMode?: "default" | "gallery-only";
+  galleryTabs?: {
+    showcaseLabel: LocalizedText;
+    researchLabel: LocalizedText;
+    researchImages: string[];
+  };
   gallery?: Array<{
     title?: LocalizedText;
     src?: string;
@@ -427,6 +432,14 @@ export const projects: Project[] = [
       underline: "#5CF5F8"
     },
     detailMode: "gallery-only",
+    galleryTabs: {
+      showcaseLabel: { zh: "作品展示", en: "Project Showcase" },
+      researchLabel: { zh: "产品调研", en: "Product Research" },
+      researchImages: Array.from(
+        { length: 10 },
+        (_, index) => `/assets/uiux/vyoga/gallery/research${index + 1}.png`
+      )
+    },
     gallery: [
       {
         title: { zh: "品牌形象", en: "Brand Identity" },
