@@ -494,6 +494,12 @@ export const projects: Project[] = [
             zh: "所以，我们项目的全部努力，就是为了降低瑜伽的启动成本，一种能塞进课间十分钟、在宿舍一隅就能发生、无需昂贵装备、更没有心理负担，只要一个念头就能轻松开始的，身心游戏。",
             en: "所以，我们项目的全部努力，就是为了降低瑜伽的启动成本，一种能塞进课间十分钟、在宿舍一隅就能发生、无需昂贵装备、更没有心理负担，只要一个念头就能轻松开始的，身心游戏。"
           }
+        },
+        {
+          src: "/assets/uiux/vyoga/gallery/research11.png"
+        },
+        {
+          src: "/assets/uiux/vyoga/gallery/research12.jpg"
         }
       ]
     },
