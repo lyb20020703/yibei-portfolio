@@ -2,6 +2,7 @@
 
 import { siteCopy } from "@/data/site";
 import { useLanguage } from "@/context/language-context";
+import { AboutProfileCard } from "@/components/about/about-profile-card";
 import { Reveal } from "@/components/motion/reveal";
 
 export function AboutSection() {
@@ -15,6 +16,11 @@ export function AboutSection() {
             <h2 className="text-3xl font-medium text-white sm:text-5xl">{t(siteCopy.about.title)}</h2>
             <div>
               <p className="max-w-3xl text-lg leading-9 text-white/58">{t(siteCopy.about.body)}</p>
+              <AboutProfileCard
+                src="/assets/profile/aboutme.png"
+                alt={t(siteCopy.about.profileImageAlt)}
+                viewLabel={t(siteCopy.about.viewProfile)}
+              />
               <a
                 href={`mailto:${siteCopy.about.email}`}
                 className="focus-ring mt-8 inline-flex rounded-full border border-white/12 px-5 py-3 text-sm text-white/74 transition-colors hover:border-white/28 hover:bg-white/[0.06] hover:text-white"

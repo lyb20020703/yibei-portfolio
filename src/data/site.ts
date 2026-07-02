@@ -192,6 +192,8 @@ export const siteCopy = {
       zh: "跨游戏、UI/UX、视觉与 AI 影像的创作者，关注叙事系统、体验流程与艺术科技表达。",
       en: "A creator across games, UI/UX, visual design, and AI film, focused on narrative systems, experience flows, and art-technology expression."
     },
+    profileImageAlt: { zh: "楼依贝个人简介", en: "Yibei Lou profile overview" },
+    viewProfile: { zh: "点击查看", en: "Click to view" },
     email: "lyb20020703@sjtu.edu.cn"
   }
 };
