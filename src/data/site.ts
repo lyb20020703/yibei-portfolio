@@ -440,6 +440,9 @@ export const projects: Project[] = [
       researchLabel: { zh: "产品调研", en: "Product Research" },
       researchItems: [
         {
+          src: "/assets/uiux/vyoga/gallery/research0.png"
+        },
+        {
           src: "/assets/uiux/vyoga/gallery/research1.png",
           description: {
             zh: "做瑜伽的成本太高了！需要在一个祥和的午后、一个宽敞的房间、一套专业的装备、一种预备好的心情里",
