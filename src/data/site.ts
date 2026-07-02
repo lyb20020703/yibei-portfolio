@@ -496,10 +496,12 @@ export const projects: Project[] = [
           }
         },
         {
-          src: "/assets/uiux/vyoga/gallery/research11.png"
+          src: "/assets/uiux/vyoga/gallery/research11.png",
+          description: { zh: "竞品分析", en: "竞品分析" }
         },
         {
-          src: "/assets/uiux/vyoga/gallery/research12.jpg"
+          src: "/assets/uiux/vyoga/gallery/research12.jpg",
+          description: { zh: "产品定位", en: "产品定位" }
         }
       ]
     },
