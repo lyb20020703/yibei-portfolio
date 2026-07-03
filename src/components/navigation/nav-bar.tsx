@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { categories, getProjectsByCategory, siteCopy, type CategoryKey, type Project } from "@/data/site";
 import { useLanguage } from "@/context/language-context";
 import { cn } from "@/lib/utils";
@@ -11,11 +11,86 @@ type NavBarProps = {
   activeCategory?: CategoryKey;
 };
 
+const homeSectionKeys: CategoryKey[] = ["games", "uiux", "visual", "ai-films", "about"];
+
 export function NavBar({ activeCategory = "home" }: NavBarProps) {
   const { locale, setLocale, t } = useLanguage();
   const [openCategory, setOpenCategory] = useState<CategoryKey | null>(null);
+  const [activeNavCategory, setActiveNavCategory] = useState<CategoryKey>(activeCategory);
+  const pendingCategoryRef = useRef<CategoryKey | null>(null);
+  const pendingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { scrollY } = useScroll();
   const backgroundOpacity = useTransform(scrollY, [0, 180], [0.48, 0.76]);
+
+  useEffect(() => {
+    if (activeCategory !== "home") {
+      setActiveNavCategory(activeCategory);
+      return;
+    }
+
+    const hashCategory = window.location.hash.slice(1) as CategoryKey;
+    setActiveNavCategory(homeSectionKeys.includes(hashCategory) ? hashCategory : "home");
+  }, [activeCategory]);
+
+  useEffect(() => {
+    if (activeCategory !== "home") return;
+
+    let animationFrame = 0;
+
+    const updateActiveSection = () => {
+      if (pendingCategoryRef.current) return;
+
+      const activationLine = window.scrollY + Math.min(window.innerHeight * 0.35, 280);
+      let nextCategory: CategoryKey = "home";
+
+      for (const key of homeSectionKeys) {
+        const section = document.getElementById(key);
+        if (!section) continue;
+
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+        if (sectionTop <= activationLine) nextCategory = key;
+      }
+
+      const isAtPageBottom =
+        window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8;
+      if (isAtPageBottom) nextCategory = "about";
+
+      setActiveNavCategory((current) => (current === nextCategory ? current : nextCategory));
+    };
+
+    const handleScroll = () => {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = requestAnimationFrame(updateActiveSection);
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [activeCategory]);
+
+  useEffect(
+    () => () => {
+      if (pendingTimerRef.current) clearTimeout(pendingTimerRef.current);
+    },
+    []
+  );
+
+  const handleCategoryClick = (category: CategoryKey) => {
+    setActiveNavCategory(category);
+    pendingCategoryRef.current = category;
+
+    if (pendingTimerRef.current) clearTimeout(pendingTimerRef.current);
+    pendingTimerRef.current = setTimeout(() => {
+      pendingCategoryRef.current = null;
+      pendingTimerRef.current = null;
+    }, 900);
+  };
 
   const categoryProjects = openCategory
     ? getProjectsByCategory(openCategory as Project["category"])
@@ -38,13 +113,14 @@ export function NavBar({ activeCategory = "home" }: NavBarProps) {
 
         <div className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1 md:flex">
           {categories.map((category) => {
-            const isActive = activeCategory === category.key;
+            const isActive = activeNavCategory === category.key;
             const hasDropdown = category.key !== "home" && category.key !== "about";
 
             return (
               <Link
                 key={category.key}
                 href={category.href}
+                onClick={() => handleCategoryClick(category.key)}
                 onMouseEnter={() => setOpenCategory(hasDropdown ? category.key : null)}
                 onFocus={() => setOpenCategory(hasDropdown ? category.key : null)}
                 className={cn(
@@ -90,9 +166,10 @@ export function NavBar({ activeCategory = "home" }: NavBarProps) {
             <Link
               key={category.key}
               href={category.href}
+              onClick={() => handleCategoryClick(category.key)}
               className={cn(
                 "focus-ring shrink-0 rounded-full px-3 py-2 text-sm text-white/62",
-                activeCategory === category.key && "bg-white text-black"
+                activeNavCategory === category.key && "bg-white text-black"
               )}
             >
               {t(category.label)}
