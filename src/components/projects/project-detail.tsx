@@ -110,6 +110,7 @@ export function ProjectDetail({ project }: { project: Project }) {
                   key={item.images?.join("-")}
                   title={item.title ? t(item.title) : undefined}
                   images={item.images ?? (item.src ? [item.src] : [])}
+                  columns={item.columns}
                   underlineColor={project.theme?.underline ?? "#561134"}
                   titleColor={project.theme?.text ?? "#000000"}
                 />
@@ -144,6 +145,7 @@ export function ProjectDetail({ project }: { project: Project }) {
                         key={item.images?.join("-")}
                         title={item.title ? t(item.title) : undefined}
                         images={item.images ?? (item.src ? [item.src] : [])}
+                        columns={item.columns}
                         underlineColor={project.theme?.underline ?? "#561134"}
                         titleColor={project.theme?.text ?? "#000000"}
                       />
@@ -355,11 +357,13 @@ function DetailGallerySection({
 function DetailGridGallerySection({
   title,
   images,
+  columns = 3,
   underlineColor,
   titleColor
 }: {
   title?: string;
   images: string[];
+  columns?: 2 | 3;
   underlineColor: string;
   titleColor: string;
 }) {
@@ -372,7 +376,7 @@ function DetailGridGallerySection({
       className="mx-auto w-full max-w-[92rem]"
     >
       {title && <SectionCaption title={title} titleColor={titleColor} underlineColor={underlineColor} />}
-      <div className="grid items-start gap-5 sm:grid-cols-2 xl:grid-cols-3">
+      <div className={cn("grid items-start gap-5 sm:grid-cols-2", columns === 3 ? "xl:grid-cols-3" : "xl:grid-cols-2")}>
         {images.map((src, index) => (
           <div key={src} className="overflow-hidden rounded-[8px] bg-black/5 shadow-[0_24px_80px_rgba(0,0,0,0.14)]">
             <Image
@@ -381,6 +385,7 @@ function DetailGridGallerySection({
               width={1200}
               height={1800}
               sizes="(min-width: 1280px) 29vw, (min-width: 640px) 45vw, calc(100vw - 32px)"
+              unoptimized={src.toLowerCase().endsWith(".gif")}
               className="h-auto w-full object-contain"
             />
           </div>

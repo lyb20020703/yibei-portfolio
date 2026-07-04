@@ -49,6 +49,7 @@ export type Project = {
     src?: string;
     images?: string[];
     layout?: "stack" | "grid";
+    columns?: 2 | 3;
   }>;
   levelFlow?: {
     title: LocalizedText;
@@ -520,6 +521,15 @@ export const projects: Project[] = [
       {
         title: { zh: "页面展示", en: "Interface Showcase" },
         src: "/assets/uiux/vyoga/gallery/3-interface.png"
+      },
+      {
+        images: [
+          "/assets/uiux/vyoga/gallery/gif/1.gif",
+          "/assets/uiux/vyoga/gallery/gif/2.gif",
+          "/assets/uiux/vyoga/gallery/gif/3.gif"
+        ],
+        layout: "grid",
+        columns: 3
       },
       {
         title: { zh: "硬件产品", en: "Hardware Product" },
