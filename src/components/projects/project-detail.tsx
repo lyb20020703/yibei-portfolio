@@ -210,6 +210,7 @@ export function ProjectDetail({ project }: { project: Project }) {
                   key={item.images?.join("-")}
                   title={item.title ? t(item.title) : undefined}
                   images={item.images ?? (item.src ? [item.src] : [])}
+                  columns={item.columns}
                   underlineColor={project.theme?.underline ?? "#5CF5F8"}
                   titleColor={project.theme?.text ?? "#ffffff"}
                 />
@@ -363,7 +364,7 @@ function DetailGridGallerySection({
 }: {
   title?: string;
   images: string[];
-  columns?: 2 | 3;
+  columns?: 2 | 3 | 4;
   underlineColor: string;
   titleColor: string;
 }) {
@@ -376,7 +377,12 @@ function DetailGridGallerySection({
       className="mx-auto w-full max-w-[92rem]"
     >
       {title && <SectionCaption title={title} titleColor={titleColor} underlineColor={underlineColor} />}
-      <div className={cn("grid items-start gap-5 sm:grid-cols-2", columns === 3 ? "xl:grid-cols-3" : "xl:grid-cols-2")}>
+      <div
+        className={cn(
+          "grid items-start gap-5 sm:grid-cols-2",
+          columns === 4 ? "xl:grid-cols-4" : columns === 3 ? "xl:grid-cols-3" : "xl:grid-cols-2"
+        )}
+      >
         {images.map((src, index) => (
           <div key={src} className="overflow-hidden rounded-[8px] bg-black/5 shadow-[0_24px_80px_rgba(0,0,0,0.14)]">
             <Image
