@@ -332,6 +332,19 @@ export const projects: Project[] = [
       url: "https://yibeilou.itch.io/mulan",
       actionLabel: { zh: "立即试玩", en: "Play Now" },
       note: { zh: "建议使用电脑端体验完整内容。", en: "Desktop is recommended for the full experience." }
+    },
+    galleryTabs: {
+      showcaseLabel: { zh: "作品展示", en: "Project Showcase" },
+      researchLabel: { zh: "设计过程", en: "Design Process" },
+      researchItems: [
+        { src: "/assets/games/mulan/gallery/process/mulan1.jpg" },
+        { src: "/assets/games/mulan/gallery/process/mulan2.jpg" },
+        { src: "/assets/games/mulan/gallery/process/mulan3.jpg" },
+        { src: "/assets/games/mulan/gallery/process/mulan4.jpg" },
+        { src: "/assets/games/mulan/gallery/process/mulan5.jpg" },
+        { src: "/assets/games/mulan/gallery/process/mulan6.jpg" },
+        { src: "/assets/games/mulan/gallery/process/mulan7.jpg" }
+      ]
     }
   },
   {

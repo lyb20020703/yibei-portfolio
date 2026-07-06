@@ -24,6 +24,8 @@ export function ProjectDetail({ project }: { project: Project }) {
   const isLightTheme = project.theme?.text === "#000000";
   const textColor = project.theme?.text ?? "#ffffff";
   const backgroundColor = project.theme?.background;
+  const shouldShowShowcase = !project.galleryTabs || activeGalleryTab === "showcase";
+  const shouldShowProcess = Boolean(project.galleryTabs && activeGalleryTab === "research");
 
   return (
     <article className="pb-24" style={{ backgroundColor, color: textColor }}>
@@ -88,7 +90,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           />
         )}
 
-        {project.playableDemo && (
+        {project.playableDemo && shouldShowShowcase && (
           <ProjectPlayableDemoSection
             title={t(project.playableDemo.title)}
             subtitle={project.playableDemo.subtitle ? t(project.playableDemo.subtitle) : undefined}
@@ -100,7 +102,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           />
         )}
 
-        {project.levelFlow && <LevelFlowModule project={project} />}
+        {project.levelFlow && shouldShowShowcase && <LevelFlowModule project={project} />}
 
         {isGalleryOnly && project.gallery && !project.galleryTabs && (
           <section className="relative left-1/2 w-screen -translate-x-1/2 space-y-16 px-4 pt-2 sm:space-y-24 sm:px-6 lg:px-8">
@@ -192,7 +194,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           />
         )}
 
-        {!isGalleryOnly && project.media?.videoEmbed && (
+        {!isGalleryOnly && project.media?.videoEmbed && shouldShowShowcase && (
           <ProjectVideoSection
             title={t(project.media.videoEmbed.title)}
             url={project.media.videoEmbed.url}
@@ -202,7 +204,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           />
         )}
 
-        {!isGalleryOnly && project.gallery && (
+        {!isGalleryOnly && project.gallery && shouldShowShowcase && (
           <section className="relative left-1/2 mt-20 w-screen -translate-x-1/2 space-y-16 px-4 sm:space-y-24 sm:px-6 lg:px-8">
             {project.gallery.map((item) => (
               item.layout === "grid" ? (
@@ -228,7 +230,31 @@ export function ProjectDetail({ project }: { project: Project }) {
           </section>
         )}
 
-        {!isGalleryOnly && project.details?.sections && (
+        {!isGalleryOnly && project.galleryTabs && shouldShowProcess && (
+          <section className="relative left-1/2 mt-20 w-screen -translate-x-1/2 px-4 sm:px-6 lg:px-8">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key="process"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <DetailGallerySection
+                  images={project.galleryTabs.researchItems.map((item) => item.src)}
+                  descriptions={project.galleryTabs.researchItems.map((item) =>
+                    item.description ? t(item.description) : undefined
+                  )}
+                  underlineColor={project.theme?.underline ?? "#5CF5F8"}
+                  titleColor={project.theme?.text ?? "#ffffff"}
+                  contained
+                />
+              </motion.div>
+            </AnimatePresence>
+          </section>
+        )}
+
+        {!isGalleryOnly && project.details?.sections && shouldShowShowcase && (
           <div className="mx-auto mt-16 max-w-4xl space-y-10">
             {project.details.sections.map((section) => (
               <section
