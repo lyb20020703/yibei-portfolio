@@ -7,6 +7,7 @@ export type CategoryKey = "home" | "games" | "uiux" | "visual" | "ai-films" | "a
 export type Project = {
   slug: string;
   category: Exclude<CategoryKey, "home" | "about">;
+  hidden?: boolean;
   title: LocalizedText;
   subtitle?: LocalizedText;
   date: string;
@@ -398,6 +399,7 @@ export const projects: Project[] = [
   {
     slug: "character-design-collection",
     category: "games",
+    hidden: true,
     title: { zh: "角色原画合集", en: "Character Design Collection" },
     date: "2026.04",
     tags: {
@@ -871,7 +873,7 @@ export function getProject(slug: string) {
 }
 
 export function getProjectsByCategory(category: Project["category"]) {
-  return projects.filter((project) => project.category === category);
+  return projects.filter((project) => project.category === category && !project.hidden);
 }
 
 export const workCategories = categories.filter(
