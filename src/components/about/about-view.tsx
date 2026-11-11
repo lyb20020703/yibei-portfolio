@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { courses, education, honors, languages, traits } from "@/data/profile";
 import { siteCopy } from "@/data/site";
 import { useLanguage } from "@/context/language-context";
-import { AboutProfileCard } from "@/components/about/about-profile-card";
 import { Reveal } from "@/components/motion/reveal";
+import { cn } from "@/lib/utils";
 
 const copy = {
   kicker: { zh: "About", en: "About" },
@@ -18,7 +18,6 @@ const copy = {
   courses: { zh: "主修课程", en: "Courses" },
   languages: { zh: "语言", en: "Languages" },
   honors: { zh: "荣誉", en: "Honors" },
-  profile: { zh: "个人简介", en: "Profile sheet" },
   contact: { zh: "联系我", en: "Get in touch" }
 };
 
@@ -66,13 +65,40 @@ export function AboutView() {
             <motion.div
               key={trait.title.en}
               variants={item}
-              whileHover={{ y: -4 }}
+              whileHover={trait.links ? undefined : { y: -4 }}
               transition={{ type: "spring", stiffness: 320, damping: 26 }}
-              className="group relative overflow-hidden rounded-[16px] border border-white/10 bg-white/[0.03] p-6"
+              className={cn(
+                "group relative overflow-hidden rounded-[16px] border border-white/10 bg-white/[0.03] p-6",
+                trait.links && "sm:col-span-2 sm:p-7"
+              )}
             >
               <span className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-glow/0 blur-2xl transition-colors duration-500 group-hover:bg-glow/12" />
               <p className="relative text-lg font-medium text-white">{t(trait.title)}</p>
-              <p className="relative mt-2 text-sm text-white/50">{t(trait.detail)}</p>
+              <p className="relative mt-2 max-w-xl text-sm leading-6 text-white/50">{t(trait.detail)}</p>
+              {trait.links && (
+                <div className="relative mt-5 grid gap-2 sm:grid-cols-3">
+                  {trait.links.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="focus-ring group/link flex items-center justify-between gap-3 rounded-[12px] border border-white/10 bg-black/20 px-4 py-3 transition-colors hover:border-white/26 hover:bg-white/[0.05]"
+                    >
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm text-white/88">{link.name}</span>
+                        <span className="mt-0.5 block text-xs text-white/44">{t(link.kind)}</span>
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="shrink-0 text-white/40 transition-transform duration-300 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-white"
+                      >
+                        ↗
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              )}
             </motion.div>
           ))}
         </motion.div>
@@ -116,13 +142,7 @@ export function AboutView() {
         </div>
 
         <Reveal className="mt-28">
-          <h2 className="text-2xl font-medium text-white sm:text-3xl">{t(copy.profile)}</h2>
-          <AboutProfileCard
-            src="/assets/profile/aboutme.png"
-            alt={t(siteCopy.about.profileImageAlt)}
-            viewLabel={t(siteCopy.about.viewProfile)}
-          />
-          <p className="mt-12 text-sm text-white/44">{t(copy.contact)}</p>
+          <p className="text-sm text-white/44">{t(copy.contact)}</p>
           <a
             href={`mailto:${siteCopy.about.email}`}
             className="focus-ring mt-3 inline-flex rounded-full border border-white/12 px-5 py-3 text-sm text-white/80 transition-colors hover:border-white/28 hover:bg-white/[0.06] hover:text-white"

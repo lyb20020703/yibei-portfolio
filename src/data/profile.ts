@@ -3,31 +3,6 @@ import type { LocalizedText } from "@/data/site";
 // Content for the home and about pages, taken from the resume.
 // Phone number and birthday are intentionally left off the public site.
 
-export type Stat = {
-  // Counted up on scroll; decimals follow the number as written.
-  value: Record<"zh" | "en", { n: number; suffix: string }>;
-  label: LocalizedText;
-};
-
-export const stats: Stat[] = [
-  {
-    value: { zh: { n: 911, suffix: "万+" }, en: { n: 9.11, suffix: "M+" } },
-    label: { zh: "礼品卡营销活动总曝光", en: "Gift card campaign impressions" }
-  },
-  {
-    value: { zh: { n: 12.2, suffix: "万" }, en: { n: 122, suffix: "K" } },
-    label: { zh: "公益短片线上观看", en: "Online views of the public-service shorts" }
-  },
-  {
-    value: { zh: { n: 14, suffix: "个" }, en: { n: 14, suffix: "" } },
-    label: { zh: "推动接入平台的 Skills/MCP", en: "Skills/MCPs onboarded to the platform" }
-  },
-  {
-    value: { zh: { n: 150, suffix: "万+" }, en: { n: 1.5, suffix: "M+" } },
-    label: { zh: "小红书视频笔记播放", en: "Views on my Xiaohongshu videos" }
-  }
-];
-
 export const intro: LocalizedText[] = [
   {
     zh: "上海交通大学工业设计工程硕士在读，2028 年 3 月毕业。本科就读视觉传达设计，GPA 3.88/4.3，专业前 15%，曾在莫纳什大学交换。",
@@ -194,23 +169,46 @@ export const honors: LocalizedText[] = [
   { zh: "NCDA 全国高校数字艺术设计大赛 多项奖项", en: "NCDA National Digital Art & Design Competition, several awards" }
 ];
 
+export type TraitLink = {
+  name: string;
+  kind: LocalizedText;
+  href: string;
+};
+
 export type Trait = {
   title: LocalizedText;
   detail: LocalizedText;
+  links?: TraitLink[];
 };
 
 export const traits: Trait[] = [
   {
+    title: { zh: "小红书创作者", en: "Xiaohongshu creator" },
+    detail: {
+      zh: "从 0 到 1 运营 3 个账号，品牌号 20 天粉丝增长 4000+，视频笔记累计播放 150 万+。",
+      en: "Built 3 accounts from scratch: the brand account gained 4,000+ followers in 20 days, and my videos have 1.5M+ views."
+    },
+    links: [
+      {
+        name: "幻想型碳水",
+        kind: { zh: "绘画与 vlog", en: "Art and vlogs" },
+        href: "https://www.xiaohongshu.com/user/profile/64b62416000000001403a7e5"
+      },
+      {
+        name: "我不来上课就别点名了",
+        kind: { zh: "交换生活", en: "Exchange life" },
+        href: "https://www.xiaohongshu.com/user/profile/64b53f67000000001403a759"
+      },
+      {
+        name: "V Yoga",
+        kind: { zh: "品牌账号", en: "Brand account" },
+        href: "https://www.xiaohongshu.com/user/profile/61370c360000000002021826"
+      }
+    ]
+  },
+  {
     title: { zh: "深度使用 AI", en: "Uses AI every day" },
     detail: { zh: "Codex、Claude Code、ComfyUI", en: "Codex, Claude Code, ComfyUI" }
-  },
-  {
-    title: { zh: "小红书创作者", en: "Xiaohongshu creator" },
-    detail: { zh: "3 条视频笔记播放 150 万+", en: "3 videos with 1.5M+ views" }
-  },
-  {
-    title: { zh: "品牌账号运营", en: "Brand account builder" },
-    detail: { zh: "20 天粉丝增长 4000+", en: "4,000+ followers in 20 days" }
   },
   {
     title: { zh: "热爱游戏", en: "Loves games" },

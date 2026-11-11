@@ -229,8 +229,6 @@ export const siteCopy = {
     }
   },
   about: {
-    profileImageAlt: { zh: "个人简介", en: "Profile overview" },
-    viewProfile: { zh: "点击查看", en: "Click to view" },
     email: "lyb20020703@sjtu.edu.cn"
   }
 };
