@@ -4,16 +4,15 @@ import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { agentFallback, agentReplies, type AgentReply } from "@/data/profile";
-import type { LocalizedText } from "@/data/site";
 import { useLanguage } from "@/context/language-context";
 import { cn } from "@/lib/utils";
 
 const copy = {
   title: { zh: "Yibei Agent", en: "Yibei Agent" },
-  badge: { zh: "演示", en: "Demo" },
+  badge: { zh: "AI", en: "AI" },
   greeting: {
-    zh: "你好，我是这个作品集的助手。想了解 Yibei 的什么？",
-    en: "Hi, I'm this portfolio's assistant. What would you like to know about Yibei?"
+    zh: "你好，我是 Yibei 的 AI 分身，会根据她的经历和作品来回答。想了解什么？",
+    en: "Hi, I'm Yibei's AI twin. I answer from her experience and work. What would you like to know?"
   },
   placeholder: { zh: "问点什么，比如：在腾讯做了什么？", en: "Ask something, like: what did you do at Tencent?" },
   calling: { zh: "调用", en: "Calling" },
@@ -21,10 +20,16 @@ const copy = {
   send: { zh: "发送", en: "Send" }
 };
 
+type AgentLink = { href: string; label: string };
+
 type Message =
   | { id: number; role: "user"; text: string }
   | { id: number; role: "skill"; skill: string; done: boolean }
-  | { id: number; role: "agent"; text: LocalizedText; link?: AgentReply["link"]; streamed: boolean };
+  | { id: number; role: "agent"; text: string; links: AgentLink[]; streamed: boolean };
+
+type HistoryItem = { role: "user" | "assistant"; content: string };
+
+const MAX_HISTORY = 12;
 
 function findReply(question: string) {
   const lower = question.toLowerCase();
@@ -35,63 +40,167 @@ function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// Scripted chat that mimics an agent calling a skill before answering.
-// Nothing is sent anywhere: answers come from src/data/profile.ts.
+// Chat with the portfolio agent. Answers come from /api/agent (DeepSeek,
+// grounded in the site's data). If that call fails, the scripted answers in
+// src/data/profile.ts take over so the widget never goes dead.
 export function AgentDemo() {
   const { t, locale } = useLanguage();
   const reduceMotion = useReducedMotion();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
-  const [streamLength, setStreamLength] = useState<Record<number, number>>({});
   const scrollRef = useRef<HTMLDivElement>(null);
   const idRef = useRef(0);
+  const historyRef = useRef<HistoryItem[]>([]);
   const askedRef = useRef(new Set<string>());
+  const abortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => () => abortRef.current?.abort(), []);
 
   useEffect(() => {
     const box = scrollRef.current;
     if (box) box.scrollTo({ top: box.scrollHeight, behavior: reduceMotion ? "auto" : "smooth" });
-  }, [messages, streamLength, reduceMotion]);
+  }, [messages, reduceMotion]);
 
   const nextId = () => ++idRef.current;
+
+  const update = (id: number, change: (message: Message) => Message) =>
+    setMessages((current) => current.map((message) => (message.id === id ? change(message) : message)));
+
+  const appendText = (id: number, piece: string) =>
+    update(id, (message) => (message.role === "agent" ? { ...message, text: message.text + piece } : message));
+
+  // Returns the answer text, or null if the live agent could not be reached.
+  async function askLive(question: string): Promise<string | null> {
+    const controller = new AbortController();
+    abortRef.current = controller;
+    const history = [...historyRef.current, { role: "user" as const, content: question }].slice(-MAX_HISTORY);
+
+    let response: Response;
+    try {
+      response = await fetch("/api/agent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: history, locale }),
+        signal: controller.signal
+      });
+    } catch {
+      return null;
+    }
+    if (!response.ok || !response.body) return null;
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let answerId: number | null = null;
+    let answer = "";
+    const skillIds = new Map<string, number>();
+
+    const ensureAnswer = () => {
+      if (answerId === null) {
+        const id = nextId();
+        answerId = id;
+        setMessages((current) => [...current, { id, role: "agent", text: "", links: [], streamed: false }]);
+      }
+      return answerId;
+    };
+
+    try {
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          let event: { t: string; v?: string; name?: string; items?: AgentLink[] };
+          try {
+            event = JSON.parse(line);
+          } catch {
+            continue;
+          }
+
+          if (event.t === "skill" && event.name) {
+            const id = nextId();
+            skillIds.set(event.name, id);
+            setMessages((current) => [...current, { id, role: "skill", skill: event.name!, done: false }]);
+          } else if (event.t === "skill_done" && event.name) {
+            const id = skillIds.get(event.name);
+            // Keep the running state on screen briefly so the call is readable.
+            if (id !== undefined) {
+              await wait(reduceMotion ? 0 : 450);
+              update(id, (message) => (message.role === "skill" ? { ...message, done: true } : message));
+            }
+          } else if (event.t === "text" && event.v) {
+            answer += event.v;
+            appendText(ensureAnswer(), event.v);
+          } else if (event.t === "links" && event.items) {
+            const links = event.items;
+            update(ensureAnswer(), (message) => (message.role === "agent" ? { ...message, links } : message));
+          } else if (event.t === "error") {
+            if (!answer) return null;
+          }
+        }
+      }
+    } catch {
+      if (!answer) return null;
+    }
+
+    if (!answer) return null;
+    if (answerId !== null) {
+      const id = answerId;
+      update(id, (message) => (message.role === "agent" ? { ...message, streamed: true } : message));
+    }
+    return answer;
+  }
+
+  // Offline fallback: pretend skill call plus a scripted answer.
+  async function askScripted(question: string, preset?: AgentReply) {
+    const reply = preset ?? findReply(question);
+    if (reply) {
+      const skillId = nextId();
+      setMessages((current) => [...current, { id: skillId, role: "skill", skill: reply.skill, done: false }]);
+      await wait(reduceMotion ? 0 : 800);
+      update(skillId, (message) => (message.role === "skill" ? { ...message, done: true } : message));
+    }
+
+    const full = t(reply?.answer ?? agentFallback);
+    const links = reply?.link ? [{ href: reply.link.href, label: t(reply.link.label) }] : [];
+    const id = nextId();
+    setMessages((current) => [...current, { id, role: "agent", text: "", links: [], streamed: false }]);
+    if (reduceMotion) {
+      update(id, (message) => (message.role === "agent" ? { ...message, text: full } : message));
+    } else {
+      for (let i = 0; i < full.length; i += 2) {
+        appendText(id, full.slice(i, i + 2));
+        await wait(16);
+      }
+    }
+    update(id, (message) => (message.role === "agent" ? { ...message, links, streamed: true } : message));
+    return full;
+  }
 
   async function ask(question: string, preset?: AgentReply) {
     const text = question.trim();
     if (!text || busy) return;
     setBusy(true);
     setInput("");
-
-    const reply = preset ?? findReply(text);
-    if (reply) askedRef.current.add(reply.key);
+    if (preset) askedRef.current.add(preset.key);
     setMessages((current) => [...current, { id: nextId(), role: "user", text }]);
 
-    if (reply) {
-      const skillId = nextId();
-      await wait(reduceMotion ? 0 : 280);
-      setMessages((current) => [...current, { id: skillId, role: "skill", skill: reply.skill, done: false }]);
-      await wait(reduceMotion ? 0 : 900);
-      setMessages((current) => current.map((m) => (m.id === skillId && m.role === "skill" ? { ...m, done: true } : m)));
-    }
-
-    await wait(reduceMotion ? 0 : 240);
-    const answer = reply?.answer ?? agentFallback;
-    const answerId = nextId();
-    setMessages((current) => [...current, { id: answerId, role: "agent", text: answer, link: reply?.link, streamed: false }]);
-
-    const full = t(answer);
-    if (!reduceMotion) {
-      // Reveal a few characters per frame, like a streamed model response.
-      for (let i = 0; i <= full.length; i += 2) {
-        setStreamLength((current) => ({ ...current, [answerId]: i }));
-        await wait(16);
-      }
-    }
-    setStreamLength((current) => ({ ...current, [answerId]: Number.POSITIVE_INFINITY }));
-    setMessages((current) => current.map((m) => (m.id === answerId && m.role === "agent" ? { ...m, streamed: true } : m)));
+    const answer = (await askLive(text)) ?? (await askScripted(text, preset));
+    historyRef.current = [
+      ...historyRef.current,
+      { role: "user" as const, content: text },
+      { role: "assistant" as const, content: answer }
+    ].slice(-MAX_HISTORY);
     setBusy(false);
   }
 
   const suggestions = agentReplies.filter((reply) => !askedRef.current.has(reply.key));
+  const waiting = busy && messages[messages.length - 1]?.role === "user";
 
   return (
     <div className="relative overflow-hidden rounded-[18px] border border-white/10 bg-white/[0.035] shadow-card backdrop-blur-xl">
@@ -124,7 +233,7 @@ export function AgentDemo() {
             >
               {message.role === "user" && (
                 <div className="flex justify-end">
-                  <p className="max-w-[85%] rounded-[14px] rounded-br-[4px] bg-white px-4 py-2.5 text-sm leading-6 text-black">
+                  <p className="max-w-[85%] whitespace-pre-wrap rounded-[14px] rounded-br-[4px] bg-white px-4 py-2.5 text-sm leading-6 text-black">
                     {message.text}
                   </p>
                 </div>
@@ -154,22 +263,33 @@ export function AgentDemo() {
 
               {message.role === "agent" && (
                 <AgentBubble>
-                  {t(message.text).slice(0, streamLength[message.id] ?? 0)}
+                  <span className="whitespace-pre-wrap">{message.text}</span>
                   {!message.streamed && <span className="ml-0.5 inline-block h-4 w-[2px] translate-y-0.5 animate-pulse bg-white/70" />}
-                  {message.streamed && message.link && (
-                    <Link
-                      href={message.link.href}
-                      className="focus-ring mt-3 flex w-fit items-center gap-1.5 rounded-full border border-white/14 px-3 py-1 text-xs text-white/80 transition-colors hover:border-white/30 hover:text-white"
-                    >
-                      {t(message.link.label)}
-                      <span aria-hidden="true">→</span>
-                    </Link>
+                  {message.streamed && message.links.length > 0 && (
+                    <span className="mt-3 flex flex-wrap gap-2">
+                      {message.links.map((link) => (
+                        <AgentLinkChip key={link.href} link={link} />
+                      ))}
+                    </span>
                   )}
                 </AgentBubble>
               )}
             </motion.div>
           ))}
         </AnimatePresence>
+
+        {waiting && (
+          <div className="flex gap-1 px-1" aria-hidden="true">
+            {[0, 1, 2].map((dot) => (
+              <motion.span
+                key={dot}
+                className="h-1.5 w-1.5 rounded-full bg-white/40"
+                animate={{ opacity: [0.25, 1, 0.25] }}
+                transition={{ duration: 1, repeat: Infinity, delay: dot * 0.15 }}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="relative border-t border-white/[0.08] px-4 pb-4 pt-3">
@@ -198,6 +318,7 @@ export function AgentDemo() {
             onChange={(event) => setInput(event.target.value)}
             placeholder={t(copy.placeholder)}
             disabled={busy}
+            maxLength={500}
             lang={locale === "zh" ? "zh-CN" : "en"}
             className="min-w-0 flex-1 bg-transparent py-1.5 text-sm text-white outline-none placeholder:text-white/32"
           />
@@ -214,6 +335,27 @@ export function AgentDemo() {
         </form>
       </div>
     </div>
+  );
+}
+
+function AgentLinkChip({ link }: { link: AgentLink }) {
+  const className =
+    "focus-ring flex w-fit items-center gap-1.5 rounded-full border border-white/14 px-3 py-1 text-xs text-white/80 transition-colors hover:border-white/30 hover:text-white";
+  const content = (
+    <>
+      {link.label}
+      <span aria-hidden="true">→</span>
+    </>
+  );
+
+  return link.href.startsWith("/") ? (
+    <Link href={link.href} className={className}>
+      {content}
+    </Link>
+  ) : (
+    <a href={link.href} className={className}>
+      {content}
+    </a>
   );
 }
 
