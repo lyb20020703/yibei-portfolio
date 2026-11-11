@@ -12,11 +12,13 @@ const toneClass: Record<Project["cover"]["tone"], string> = {
 export function PlaceholderCover({
   project,
   className,
-  large = false
+  large = false,
+  label
 }: {
   project: Project;
   className?: string;
   large?: boolean;
+  label?: string;
 }) {
   return (
     <div
@@ -42,6 +44,11 @@ export function PlaceholderCover({
       <div className="absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.14),transparent)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/62 to-transparent" />
       <div className="absolute bottom-5 right-5 h-16 w-16 rounded-full border border-white/15 bg-white/[0.05] shadow-glow" />
+      {label && (
+        <span className="absolute left-5 top-5 rounded-full border border-white/14 bg-black/30 px-3 py-1 text-xs tracking-[0.16em] text-white/70 backdrop-blur-md">
+          {label}
+        </span>
+      )}
     </div>
   );
 }

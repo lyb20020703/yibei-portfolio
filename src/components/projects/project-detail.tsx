@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import type { Project } from "@/data/site";
-import { getCategory } from "@/data/site";
+import { getSection, siteCopy } from "@/data/site";
 import { useLanguage } from "@/context/language-context";
 import { cn } from "@/lib/utils";
 import { projectDateLabel } from "@/lib/date-format";
@@ -19,7 +19,7 @@ const toneClass: Record<Project["cover"]["tone"], string> = {
 export function ProjectDetail({ project }: { project: Project }) {
   const { t, locale } = useLanguage();
   const [activeGalleryTab, setActiveGalleryTab] = useState<"showcase" | "research">("showcase");
-  const category = getCategory(project.category);
+  const category = getSection(project.section);
   const isGalleryOnly = project.detailMode === "gallery-only";
   const isLightTheme = project.theme?.text === "#000000";
   const textColor = project.theme?.text ?? "#ffffff";
@@ -68,7 +68,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           className="-mt-2 pb-12 pt-10 text-center sm:pt-14"
         >
           <p className={cn("text-xs uppercase tracking-[0.34em]", isLightTheme ? "text-black/44" : "text-white/38")}>
-            {category ? t(category.label) : project.category}
+            {category ? t(category.label) : project.section}
           </p>
           <h1 className={cn("mx-auto mt-5 max-w-4xl text-5xl font-semibold leading-[1.02] sm:text-7xl", isLightTheme ? "text-black" : "text-white")}>
             {t(project.title)}
@@ -466,6 +466,8 @@ function ProjectVideoSection({
   light: boolean;
   underlineColor?: string;
 }) {
+  const { t } = useLanguage();
+
   return (
     <section className="relative left-1/2 mt-20 w-screen -translate-x-1/2 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
@@ -500,6 +502,9 @@ function ProjectVideoSection({
             />
           </div>
         </div>
+        <p className={cn("mt-4 text-center text-xs leading-5", light ? "text-black/44" : "text-white/38")}>
+          {t(siteCopy.project.overseasNote)}
+        </p>
       </div>
     </section>
   );

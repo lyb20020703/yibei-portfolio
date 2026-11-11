@@ -5,7 +5,7 @@ import { SiteShell } from "@/components/layout/site-shell";
 
 export const metadata: Metadata = {
   title: "Portfolio System",
-  description: "Art technology, games, UI/UX, visual design, and AI films portfolio."
+  description: "AIGC product, user experience, and AI video portfolio."
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -73,6 +73,14 @@ export function Hero() {
             {t(siteCopy.hero.title)}
           </motion.h1>
           <div className="mt-10 h-px w-28 bg-gradient-to-r from-white/70 to-transparent" aria-hidden="true" />
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-8 max-w-xl text-base font-light leading-7 text-white/70 sm:text-lg sm:leading-8"
+          >
+            {t(siteCopy.hero.statement)}
+          </motion.p>
         </motion.div>
       </div>
     </section>

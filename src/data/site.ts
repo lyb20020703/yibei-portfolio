@@ -2,12 +2,23 @@ export type Locale = "zh" | "en";
 
 export type LocalizedText = Record<Locale, string>;
 
-export type CategoryKey = "home" | "games" | "uiux" | "visual" | "ai-films" | "about";
+// Portfolio page sections, in display order.
+export type SectionKey = "ai-product" | "aigc" | "product-design" | "games" | "visual";
+
+// Top-level pages in the nav.
+export type CategoryKey = "home" | "portfolio" | "about";
+
+// Asset folder under public/assets. Kept separate from `section` so moving
+// a project between sections never breaks its image paths.
+export type AssetFolder = "games" | "uiux" | "visual" | "ai-films";
 
 export type Project = {
   slug: string;
-  category: Exclude<CategoryKey, "home" | "about">;
+  category: AssetFolder;
+  section: SectionKey;
   hidden?: boolean;
+  // Case study not written yet: card shows "整理中" and has no detail page.
+  placeholder?: boolean;
   title: LocalizedText;
   subtitle?: LocalizedText;
   date: string;
@@ -125,55 +136,71 @@ export type Category = {
   key: CategoryKey;
   label: LocalizedText;
   href: string;
-  description?: LocalizedText;
 };
 
 export const categories: Category[] = [
+  { key: "home", label: { zh: "首页", en: "Home" }, href: "/" },
+  { key: "portfolio", label: { zh: "作品集", en: "Portfolio" }, href: "/portfolio" },
+  { key: "about", label: { zh: "关于我", en: "About" }, href: "/about" }
+];
+
+export type PortfolioSection = {
+  key: SectionKey;
+  label: LocalizedText;
+  // What kind of work sits here, shown under the section title.
+  scope: LocalizedText;
+  // One paragraph on what I did in this direction, shown in the overview.
+  summary: LocalizedText;
+  // Secondary sections render as a compact list instead of cards.
+  compact?: boolean;
+};
+
+export const portfolioSections: PortfolioSection[] = [
   {
-    key: "home",
-    label: { zh: "主页", en: "Home" },
-    href: "/"
-  },
-  {
-    key: "games",
-    label: { zh: "游戏", en: "Games" },
-    href: "/#games",
-    description: {
-      zh: "叙事、规则与体验机制的交互作品。",
-      en: "Interactive works across narrative, rules, and experience systems."
+    key: "ai-product",
+    label: { zh: "AI 产品", en: "AI Product" },
+    scope: { zh: "Agent 交互、能力接入、模型平台", en: "Agent interaction, capability onboarding, model platforms" },
+    summary: {
+      zh: "在腾讯 AI 效能平台参与 AI 游戏资产生成平台 GamePilot 的 1–N 建设：Chat Agent 交互改版、Skills/MCP 评测与接入，以及 Model Hub 从 0 到 1 的设计与上线。同时在做面向焦虑与压力人群的情绪陪伴产品 Moodium。",
+      en: "At Tencent's AI efficiency platform I worked on GamePilot, an AI game-asset generation platform: the Chat Agent redesign, Skills/MCP evaluation and onboarding, and taking Model Hub from zero to launch. I am also building Moodium, an emotional companion for people under anxiety and stress."
     }
   },
   {
-    key: "uiux",
-    label: { zh: "UI/UX", en: "UI/UX" },
-    href: "/#uiux",
-    description: {
-      zh: "产品体验、空间交互与服务设计。",
-      en: "Product experience, spatial interaction, and service design."
+    key: "aigc",
+    label: { zh: "AIGC 视频", en: "AIGC Video" },
+    scope: { zh: "多模型协同的动画短片制作", en: "Animated shorts made with multiple models" },
+    summary: {
+      zh: "与字节跳动即梦 AI、上海精神卫生中心合作，独立完成 2 支心理热线公益短片，从叙事切入、分镜脚本到多模型协同生成、剪辑配乐。线上观看约 12.2 万次，并在上海地铁站点投放 30 天。",
+      en: "With ByteDance Jimeng AI and the Shanghai Mental Health Center, I made two public-service shorts for a mental health hotline on my own, from story angle and storyboard to multi-model generation, editing, and music. About 122K online views, plus 30 days on Shanghai Metro screens."
+    }
+  },
+  {
+    key: "product-design",
+    label: { zh: "产品与体验设计", en: "Product & Experience Design" },
+    scope: { zh: "移动端产品、XR 空间体验、服务设计", en: "Mobile products, XR experiences, service design" },
+    summary: {
+      zh: "面向 Z 世代的轻瑜伽学习产品 Vyoga，基于 Apple Vision Pro 的交大校史沉浸体验，以及帮助欠发达地区学生适应名校生活的服务系统 adapt-U。",
+      en: "Vyoga, a light yoga learning app for Gen Z; an Apple Vision Pro experience of SJTU history; and adapt-U, a service system that helps students from less-developed regions settle into a top university."
+    }
+  },
+  {
+    key: "games",
+    label: { zh: "游戏设计", en: "Game Design" },
+    scope: { zh: "叙事与机制", en: "Narrative and mechanics" },
+    summary: {
+      zh: "用 vibe coding 完成的叙事解谜游戏《木兰之外》，以及以语言为核心机制的互动桌游 Let Her Talk。",
+      en: "Beyond Mulan, a narrative puzzle game built with vibe coding, and Let Her Talk, a tabletop game built around language."
     }
   },
   {
     key: "visual",
-    label: { zh: "视觉", en: "Visual" },
-    href: "/#visual",
-    description: {
-      zh: "角色、世界观、营销视觉与概念表达。",
-      en: "Characters, worlds, campaigns, and concept expression."
-    }
-  },
-  {
-    key: "ai-films",
-    label: { zh: "视频", en: "Videos" },
-    href: "/#ai-films",
-    description: {
-      zh: "通过影像设计与故事叙事，创造具有感染力的用户体验。",
-      en: "Short-form and public-interest stories explored through AI film workflows."
-    }
-  },
-  {
-    key: "about",
-    label: { zh: "关于我", en: "About" },
-    href: "/#about"
+    label: { zh: "视觉与品牌", en: "Visual & Brand" },
+    scope: { zh: "营销视觉、概念设计、品牌影像", en: "Campaign visuals, concept art, brand film" },
+    summary: {
+      zh: "携程礼品卡的节日营销页面、迪士尼挑战赛的世界观视觉，以及矿泉水品牌广告片。",
+      en: "Holiday campaign pages for Trip.com gift cards, worldbuilding visuals for a Disney challenge, and a brand film for a mineral water."
+    },
+    compact: true
   }
 ];
 
@@ -183,26 +210,26 @@ export const siteCopy = {
     openMenu: { zh: "打开项目目录", en: "Open project menu" }
   },
   hero: {
-    kicker: { zh: "Portfolio system / v0.1", en: "Portfolio system / v0.1" },
+    kicker: { zh: "AIGC Product Manager", en: "AIGC Product Manager" },
     title: {
       zh: "Hi, I'm Yibei",
       en: "Hi, I'm Yibei"
+    },
+    statement: {
+      zh: "欢迎来到我的作品集网站。",
+      en: "Welcome to my portfolio."
     }
   },
-  home: {
-    worksTitle: { zh: "我的作品", en: "My Portfolio" },
-    worksNote: {
-      zh: "部分项目在线视频与游戏 Demo 托管于海外平台，若加载缓慢，请尝试科学上网。",
-      en: "Some project videos and game demos are hosted on overseas platforms. If content loads slowly, please try using a network environment with international access."
+  project: {
+    placeholder: { zh: "整理中", en: "In progress" },
+    projects: { zh: "个项目", en: "projects" },
+    overseasNote: {
+      zh: "视频托管于海外平台，若加载缓慢，请尝试科学上网。",
+      en: "This video is hosted overseas. If it loads slowly, try a network with international access."
     }
   },
   about: {
-    title: { zh: "关于我", en: "About" },
-    body: {
-      zh: "跨游戏、UI/UX、视觉与 AI 影像的创作者，关注叙事系统、体验流程与艺术科技表达。",
-      en: "A creator across games, UI/UX, visual design, and AI film, focused on narrative systems, experience flows, and art-technology expression."
-    },
-    profileImageAlt: { zh: "楼依贝个人简介", en: "Yibei Lou profile overview" },
+    profileImageAlt: { zh: "个人简介", en: "Profile overview" },
     viewProfile: { zh: "点击查看", en: "Click to view" },
     email: "lyb20020703@sjtu.edu.cn"
   }
@@ -210,8 +237,45 @@ export const siteCopy = {
 
 export const projects: Project[] = [
   {
+    slug: "gamepilot",
+    category: "uiux",
+    section: "ai-product",
+    placeholder: true,
+    title: { zh: "GamePilot", en: "GamePilot" },
+    date: "",
+    tags: {
+      zh: ["腾讯实习", "Chat Agent", "Model Hub"],
+      en: ["Tencent internship", "Chat Agent", "Model Hub"]
+    },
+    excerpt: {
+      zh: "AI 游戏资产生成平台。负责 Chat Agent 改版、Skills/MCP 评测接入，主导 Model Hub 从 0 到 1 设计上线。",
+      en: "An AI game-asset generation platform. I redesigned the Chat Agent, evaluated and onboarded Skills/MCPs, and led Model Hub from zero to launch."
+    },
+    cover: { tone: "cyan", label: "E01" },
+    assets: projectAssets("uiux", "gamepilot")
+  },
+  {
+    slug: "moodium",
+    category: "uiux",
+    section: "ai-product",
+    placeholder: true,
+    title: { zh: "Moodium", en: "Moodium" },
+    date: "",
+    tags: {
+      zh: ["AI 产品", "情绪陪伴"],
+      en: ["AI product", "Emotional companion"]
+    },
+    excerpt: {
+      zh: "面向焦虑与压力人群的 AI 情绪陪伴产品。",
+      en: "An AI emotional companion for people living with anxiety and stress."
+    },
+    cover: { tone: "violet", label: "P01" },
+    assets: projectAssets("uiux", "moodium")
+  },
+  {
     slug: "mulan",
     category: "games",
+    section: "games",
     title: { zh: "木兰之外", en: "Beyond Mulan" },
     date: "2026.06",
     tags: {
@@ -351,6 +415,7 @@ export const projects: Project[] = [
   {
     slug: "let-her-talk",
     category: "games",
+    section: "games",
     title: { zh: "Let Her Talk", en: "Let Her Talk" },
     date: "2024.12",
     tags: { zh: ["桌游", "体验设计", "思辨设计", "AR"], en: ["Board game", "Experience design", "Speculative Design", "AR"] },
@@ -399,6 +464,7 @@ export const projects: Project[] = [
   {
     slug: "character-design-collection",
     category: "games",
+    section: "visual",
     hidden: true,
     title: { zh: "角色原画合集", en: "Character Design Collection" },
     date: "2026.04",
@@ -436,6 +502,7 @@ export const projects: Project[] = [
   {
     slug: "vyoga",
     category: "uiux",
+    section: "product-design",
     title: { zh: "Vyoga", en: "Vyoga" },
     date: "2025.12",
     tags: { zh: ["UI/UX设计", "品牌形象设计", "小组合作项目"], en: ["UI/UX design", "Brand identity", "Team Project"] },
@@ -604,6 +671,7 @@ export const projects: Project[] = [
   {
     slug: "space-time-overlap",
     category: "uiux",
+    section: "product-design",
     title: { zh: "时空叠影", en: "Space-Time Overlap" },
     date: "2025.05",
     tags: { zh: ["Vision Pro", "体验流程设计"], en: ["Vision Pro", "Experience flow"] },
@@ -638,6 +706,7 @@ export const projects: Project[] = [
   {
     slug: "adapt-u",
     category: "uiux",
+    section: "product-design",
     title: { zh: "adapt-U", en: "adapt-U" },
     date: "2024.07",
     tags: { zh: ["服务设计"], en: ["Service design"] },
@@ -684,8 +753,46 @@ export const projects: Project[] = [
     }
   },
   {
+    slug: "campaign-pages",
+    category: "visual",
+    section: "visual",
+    title: { zh: "营销页作品", en: "Campaign Pages" },
+    date: "2026.04",
+    tags: { zh: ["互联网设计"], en: ["Internet design"] },
+    excerpt: { zh: "节日营销活动页面设计。", en: "Seasonal campaign landing page design." },
+    cover: { tone: "amber", label: "V02" },
+    assets: withProjectMedia(projectAssets("visual", "campaign-pages"), {
+      coverImage: "/assets/visual/campaign-pages/cover/banner/yxy-cover.png?v=20260601",
+      bannerImage: "/assets/visual/campaign-pages/cover/banner/yxy-cover.png?v=20260601"
+    }),
+    theme: {
+      background: "#E0EEF8",
+      text: "#000000",
+      underline: "#5A3638"
+    },
+    detailMode: "gallery-only",
+    gallery: [
+      {
+        layout: "grid",
+        images: [
+          "/assets/visual/campaign-pages/gallery/content1.jpg",
+          "/assets/visual/campaign-pages/gallery/content2.jpg",
+          "/assets/visual/campaign-pages/gallery/content3.png",
+          "/assets/visual/campaign-pages/gallery/content4.jpg",
+          "/assets/visual/campaign-pages/gallery/content5.png",
+          "/assets/visual/campaign-pages/gallery/content6.png"
+        ]
+      }
+    ],
+    meta: {
+      role: { zh: "视觉设计 / 页面设计", en: "Visual design / Page design" },
+      format: { zh: "营销页面", en: "Campaign pages" }
+    }
+  },
+  {
     slug: "auralis",
     category: "visual",
+    section: "visual",
     title: { zh: "风起之城", en: "Auralis" },
     date: "2025.11",
     tags: { zh: ["迪士尼挑战赛", "角色原画", "小组合作项目"], en: ["Disney challenge", "Character concept", "Team Project"] },
@@ -730,44 +837,9 @@ export const projects: Project[] = [
     }
   },
   {
-    slug: "campaign-pages",
-    category: "visual",
-    title: { zh: "营销页作品", en: "Campaign Pages" },
-    date: "2026.04",
-    tags: { zh: ["互联网设计"], en: ["Internet design"] },
-    excerpt: { zh: "节日营销活动页面设计。", en: "Seasonal campaign landing page design." },
-    cover: { tone: "amber", label: "V02" },
-    assets: withProjectMedia(projectAssets("visual", "campaign-pages"), {
-      coverImage: "/assets/visual/campaign-pages/cover/banner/yxy-cover.png?v=20260601",
-      bannerImage: "/assets/visual/campaign-pages/cover/banner/yxy-cover.png?v=20260601"
-    }),
-    theme: {
-      background: "#E0EEF8",
-      text: "#000000",
-      underline: "#5A3638"
-    },
-    detailMode: "gallery-only",
-    gallery: [
-      {
-        layout: "grid",
-        images: [
-          "/assets/visual/campaign-pages/gallery/content1.jpg",
-          "/assets/visual/campaign-pages/gallery/content2.jpg",
-          "/assets/visual/campaign-pages/gallery/content3.png",
-          "/assets/visual/campaign-pages/gallery/content4.jpg",
-          "/assets/visual/campaign-pages/gallery/content5.png",
-          "/assets/visual/campaign-pages/gallery/content6.png"
-        ]
-      }
-    ],
-    meta: {
-      role: { zh: "视觉设计 / 页面设计", en: "Visual design / Page design" },
-      format: { zh: "营销页面", en: "Campaign pages" }
-    }
-  },
-  {
     slug: "metamorphosis",
     category: "ai-films",
+    section: "aigc",
     title: { zh: "变形记", en: "Metamorphosis" },
     date: "2025.04",
     tags: { zh: ["公益广告", "AI短片"], en: ["Public service ad", "AI short film"] },
@@ -812,6 +884,7 @@ export const projects: Project[] = [
   {
     slug: "one-bar-courage",
     category: "ai-films",
+    section: "aigc",
     title: { zh: "一格电的勇气", en: "One Bar of Courage" },
     date: "2025.04",
     tags: { zh: ["公益广告", "AI短片"], en: ["Public service ad", "AI short film"] },
@@ -840,6 +913,7 @@ export const projects: Project[] = [
   {
     slug: "auralis-film",
     category: "ai-films",
+    section: "visual",
     title: { zh: "百分之思", en: "Percent Thought" },
     date: "2024.11",
     tags: { zh: ["广告", "微电影", "导演"], en: ["Advertising", "Microfilm", "Director"] },
@@ -864,19 +938,14 @@ export const projects: Project[] = [
   }
 ];
 
-export function getCategory(key: CategoryKey) {
-  return categories.find((category) => category.key === key);
-}
-
 export function getProject(slug: string) {
   return projects.find((project) => project.slug === slug);
 }
 
-export function getProjectsByCategory(category: Project["category"]) {
-  return projects.filter((project) => project.category === category && !project.hidden);
+export function getProjectsBySection(section: SectionKey) {
+  return projects.filter((project) => project.section === section && !project.hidden);
 }
 
-export const workCategories = categories.filter(
-  (category): category is Category & { key: Project["category"] } =>
-    category.key !== "home" && category.key !== "about"
-);
+export function getSection(key: SectionKey) {
+  return portfolioSections.find((section) => section.key === key);
+}
