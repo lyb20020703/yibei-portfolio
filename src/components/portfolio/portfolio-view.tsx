@@ -108,7 +108,6 @@ export function PortfolioView() {
                     {String(sectionProjects.length).padStart(2, "0")} Projects
                   </span>
                 </div>
-                <p className="mt-6 max-w-3xl text-base leading-8 text-white/62">{t(section.summary)}</p>
               </Reveal>
 
               <div className="mt-10">

@@ -149,8 +149,6 @@ export type PortfolioSection = {
   label: LocalizedText;
   // What kind of work sits here, shown under the section title.
   scope: LocalizedText;
-  // One paragraph on what I did in this direction, shown in the overview.
-  summary: LocalizedText;
   // Secondary sections render as a compact list instead of cards.
   compact?: boolean;
 };
@@ -159,47 +157,27 @@ export const portfolioSections: PortfolioSection[] = [
   {
     key: "ai-product",
     label: { zh: "AI 产品", en: "AI Product" },
-    scope: { zh: "Agent 交互、能力接入、模型平台", en: "Agent interaction, capability onboarding, model platforms" },
-    summary: {
-      zh: "在腾讯 AI 效能平台参与 AI 游戏资产生成平台 GamePilot 的 1–N 建设：Chat Agent 交互改版、Skills/MCP 评测与接入，以及 Model Hub 从 0 到 1 的设计与上线。同时在做面向焦虑与压力人群的情绪陪伴产品 Moodium。",
-      en: "At Tencent's AI efficiency platform I worked on GamePilot, an AI game-asset generation platform: the Chat Agent redesign, Skills/MCP evaluation and onboarding, and taking Model Hub from zero to launch. I am also building Moodium, an emotional companion for people under anxiety and stress."
-    }
+    scope: { zh: "Agent 交互、能力接入、模型平台", en: "Agent interaction, capability onboarding, model platforms" }
   },
   {
     key: "aigc",
     label: { zh: "AIGC 视频", en: "AIGC Video" },
-    scope: { zh: "多模型协同的动画短片制作", en: "Animated shorts made with multiple models" },
-    summary: {
-      zh: "与字节跳动即梦 AI、上海精神卫生中心合作，独立完成 2 支心理热线公益短片，从叙事切入、分镜脚本到多模型协同生成、剪辑配乐。线上观看约 12.2 万次，并在上海地铁站点投放 30 天。",
-      en: "With ByteDance Jimeng AI and the Shanghai Mental Health Center, I made two public-service shorts for a mental health hotline on my own, from story angle and storyboard to multi-model generation, editing, and music. About 122K online views, plus 30 days on Shanghai Metro screens."
-    }
+    scope: { zh: "多模型协同的动画短片制作", en: "Animated shorts made with multiple models" }
   },
   {
     key: "product-design",
     label: { zh: "产品与体验设计", en: "Product & Experience Design" },
-    scope: { zh: "移动端产品、XR 空间体验、服务设计", en: "Mobile products, XR experiences, service design" },
-    summary: {
-      zh: "面向 Z 世代的轻瑜伽学习产品 Vyoga，基于 Apple Vision Pro 的交大校史沉浸体验，以及帮助欠发达地区学生适应名校生活的服务系统 adapt-U。",
-      en: "Vyoga, a light yoga learning app for Gen Z; an Apple Vision Pro experience of SJTU history; and adapt-U, a service system that helps students from less-developed regions settle into a top university."
-    }
+    scope: { zh: "移动端产品、XR 空间体验、服务设计", en: "Mobile products, XR experiences, service design" }
   },
   {
     key: "games",
     label: { zh: "游戏设计", en: "Game Design" },
-    scope: { zh: "叙事与机制", en: "Narrative and mechanics" },
-    summary: {
-      zh: "用 vibe coding 完成的叙事解谜游戏《木兰之外》，以及以语言为核心机制的互动桌游 Let Her Talk。",
-      en: "Beyond Mulan, a narrative puzzle game built with vibe coding, and Let Her Talk, a tabletop game built around language."
-    }
+    scope: { zh: "叙事与机制", en: "Narrative and mechanics" }
   },
   {
     key: "visual",
     label: { zh: "视觉与品牌", en: "Visual & Brand" },
     scope: { zh: "营销视觉、概念设计、品牌影像", en: "Campaign visuals, concept art, brand film" },
-    summary: {
-      zh: "携程礼品卡的节日营销页面、迪士尼挑战赛的世界观视觉，以及矿泉水品牌广告片。",
-      en: "Holiday campaign pages for Trip.com gift cards, worldbuilding visuals for a Disney challenge, and a brand film for a mineral water."
-    },
     compact: true
   }
 ];
