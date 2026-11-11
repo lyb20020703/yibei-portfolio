@@ -15,10 +15,6 @@ const copy = {
   kicker: { zh: "Portfolio", en: "Portfolio" },
   title: { zh: "作品集", en: "Portfolio" },
   lead: { zh: "我在做", en: "I work on" },
-  intro: {
-    zh: "做过 AI 平台产品、AIGC 视频、移动端与 XR 产品设计，也做游戏和视觉。下面按方向整理，每个方向先写我做了什么，再放作品。",
-    en: "I have worked on AI platform products, AIGC video, mobile and XR product design, plus games and visuals. Each direction below starts with what I did, followed by the work."
-  },
   projects: { zh: "个项目", en: "projects" }
 };
 
@@ -62,14 +58,6 @@ export function PortfolioView() {
           className="mt-8 text-xl text-white/56 sm:text-2xl"
         >
           {t(copy.lead)} <Typewriter key={locale} words={roleWords} className="text-white" />
-        </motion.p>
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="mt-6 max-w-2xl text-base leading-8 text-white/56"
-        >
-          {t(copy.intro)}
         </motion.p>
 
         <motion.ol

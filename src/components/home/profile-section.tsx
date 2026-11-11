@@ -14,11 +14,7 @@ const copy = {
     { zh: "AI 产品", en: "AI product" },
     { zh: "产品设计", en: "Product design" },
     { zh: "AIGC 视频", en: "AIGC video" }
-  ],
-  agentNote: {
-    zh: "右边是一个可以提问的 Agent 小样，交互参考了我在 GamePilot 做的 Chat Agent 与 Skills 调用。",
-    en: "On the right is a small agent you can talk to, modelled on the Chat Agent and Skills flow I designed for GamePilot."
-  }
+  ]
 };
 
 export function ProfileSection() {
@@ -68,7 +64,6 @@ export function ProfileSection() {
 
         <Reveal delay={0.12} className="lg:sticky lg:top-28 lg:self-start">
           <AgentDemo />
-          <p className="mt-4 px-1 text-xs leading-5 text-white/40">{t(copy.agentNote)}</p>
         </Reveal>
       </div>
     </section>

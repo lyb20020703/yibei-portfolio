@@ -260,8 +260,8 @@ export const projects: Project[] = [
     title: { zh: "Moodium", en: "Moodium" },
     date: "",
     tags: {
-      zh: ["AI 产品", "情绪陪伴"],
-      en: ["AI product", "Emotional companion"]
+      zh: ["AI 产品", "情绪陪伴", "Vision Pro"],
+      en: ["AI product", "Emotional companion", "Vision Pro"]
     },
     excerpt: {
       zh: "面向焦虑与压力人群的 AI 情绪陪伴产品。",
