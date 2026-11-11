@@ -2,15 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useState } from "react";
-import {
-  categories,
-  getProjectsBySection,
-  portfolioSections,
-  siteCopy,
-  type CategoryKey
-} from "@/data/site";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { categories, siteCopy, type CategoryKey } from "@/data/site";
 import { useLanguage } from "@/context/language-context";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +17,6 @@ export function NavBar() {
   const { locale, setLocale, t } = useLanguage();
   const pathname = usePathname();
   const activePage = pageFromPath(pathname);
-  const [menuOpen, setMenuOpen] = useState(false);
   const { scrollY, scrollYProgress } = useScroll();
   const backgroundOpacity = useTransform(scrollY, [0, 180], [0.48, 0.76]);
   const background = useTransform(backgroundOpacity, (value) => `rgba(5,5,5,${value})`);
@@ -34,7 +26,6 @@ export function NavBar() {
     <motion.header
       style={{ backgroundColor: background }}
       className="fixed inset-x-0 top-0 z-50 border-b border-white/10 shadow-[0_12px_42px_rgba(0,0,0,0.22)] backdrop-blur-2xl"
-      onMouseLeave={() => setMenuOpen(false)}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="focus-ring group flex items-center gap-3 rounded-full" aria-label="Portfolio home">
@@ -48,15 +39,11 @@ export function NavBar() {
         <div className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1 md:flex">
           {categories.map((category) => {
             const isActive = activePage === category.key;
-            const hasMenu = category.key === "portfolio";
 
             return (
               <Link
                 key={category.key}
                 href={category.href}
-                onMouseEnter={() => setMenuOpen(hasMenu)}
-                onFocus={() => setMenuOpen(hasMenu)}
-                onClick={() => setMenuOpen(false)}
                 className={cn(
                   "focus-ring relative rounded-full px-5 py-2 text-sm text-white/62 transition-colors duration-300 hover:text-white",
                   isActive && "text-white"
@@ -108,38 +95,6 @@ export function NavBar() {
           ))}
         </div>
       </div>
-
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8, filter: "blur(6px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, y: -6, filter: "blur(6px)" }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-1/2 top-[4.25rem] hidden w-[min(26rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-white/10 bg-black/80 p-2 shadow-card backdrop-blur-2xl md:block"
-          >
-            {portfolioSections.map((section, index) => (
-              <Link
-                key={section.key}
-                href={`/portfolio#${section.key}`}
-                onClick={() => setMenuOpen(false)}
-                className="focus-ring group flex items-baseline gap-4 rounded-xl px-4 py-3 transition-colors hover:bg-white/[0.08]"
-              >
-                <span className="w-4 shrink-0 text-xs tabular-nums text-white/32">{index + 1}</span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-sm text-white transition-transform duration-300 group-hover:translate-x-1">
-                    {t(section.label)}
-                  </span>
-                  <span className="mt-1 block truncate text-xs text-white/44">{t(section.scope)}</span>
-                </span>
-                <span className="shrink-0 text-xs tabular-nums text-white/32">
-                  {getProjectsBySection(section.key).length}
-                </span>
-              </Link>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <motion.span
         aria-hidden="true"
