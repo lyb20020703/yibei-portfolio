@@ -538,8 +538,8 @@ export const projects: Project[] = [
     title: { zh: "Moodium", en: "Moodium" },
     date: "2026.11",
     tags: {
-      zh: ["Vision Pro", "混合现实", "多感官交互"],
-      en: ["Vision Pro", "Mixed Reality", "Multisensory Interaction"]
+      zh: ["AI 产品", "交互设计", "AIGC"],
+      en: ["AI Product", "Interaction Design", "AIGC"]
     },
     excerpt: {
       zh: "一款面向学习与工作间隙的 Vision Pro 混合现实情绪舒缓应用。挤捏实体感官袋，进入会回应触摸的数字世界。荣获 2026 中国高校计算机大赛移动应用创新赛国家二等奖。",
