@@ -852,7 +852,7 @@ export const projects: Project[] = [
     excerpt: { zh: "节日营销活动页面设计。", en: "Seasonal campaign landing page design." },
     cover: { tone: "amber", label: "V02" },
     assets: withProjectMedia(projectAssets("visual", "campaign-pages"), {
-      coverImage: "/assets/visual/campaign-pages/cover/campaign-card-v2.jpg",
+      coverImage: "/assets/visual/campaign-pages/cover/campaign-card-v3.jpg",
       bannerImage: "/assets/visual/campaign-pages/cover/banner/yxy-cover.png?v=20260601"
     }),
     theme: {
