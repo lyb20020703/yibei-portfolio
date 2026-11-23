@@ -12,8 +12,8 @@ const copy = {
   title: { zh: "简介", en: "About me" },
   roles: [
     { zh: "AI 产品", en: "AI product" },
-    { zh: "产品设计", en: "Product design" },
-    { zh: "AIGC 视频", en: "AIGC video" }
+    { zh: "交互设计", en: "Interaction design" },
+    { zh: "AIGC", en: "AIGC" }
   ]
 };
 
