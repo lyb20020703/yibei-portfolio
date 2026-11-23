@@ -34,10 +34,7 @@ export function PlaceholderCover({
           alt={`${project.title.en} cover`}
           fill
           sizes={large ? "(min-width: 1024px) 55vw, 100vw" : "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"}
-          className={cn(
-            "transition-transform duration-700 ease-out group-hover:scale-[1.025]",
-            project.slug === "moodium" && !large ? "object-cover" : "object-contain"
-          )}
+          className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.025]"
           priority={large}
         />
       ) : (

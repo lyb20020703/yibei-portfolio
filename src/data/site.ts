@@ -474,7 +474,7 @@ export const projects: Project[] = [
     },
     cover: { tone: "violet", label: "Moodium" },
     assets: withProjectMedia(projectAssets("uiux", "moodium"), {
-      coverImage: "/assets/uiux/moodium/cover/banner/moodium.jpg",
+      coverImage: "/assets/uiux/moodium/cover/moodium-card.jpg",
       bannerImage: "/assets/uiux/moodium/cover/banner/moodium.jpg"
     }),
     theme: { background: "#F7F3FC", text: "#000000", underline: "#9365D9" },
