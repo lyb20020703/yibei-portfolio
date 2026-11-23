@@ -48,6 +48,7 @@ export type Project = {
     underline?: string;
   };
   detailMode?: "default" | "gallery-only";
+  bannerLayout?: "full-image";
   galleryTabs?: {
     showcaseLabel: LocalizedText;
     researchLabel: LocalizedText;
@@ -475,11 +476,19 @@ export const projects: Project[] = [
     cover: { tone: "violet", label: "Moodium" },
     assets: withProjectMedia(projectAssets("uiux", "moodium"), {
       coverImage: "/assets/uiux/moodium/cover/moodium-card.jpg",
-      bannerImage: "/assets/uiux/moodium/cover/banner/moodium.jpg"
+      bannerImage: "/assets/uiux/moodium/cover/moodium-card.jpg"
     }),
+    bannerLayout: "full-image",
     theme: { background: "#F7F3FC", text: "#000000", underline: "#9365D9" },
     detailMode: "gallery-only",
     gallery: [
+      {
+        title: { zh: "实机演示", en: "Product Demo" },
+        video: {
+          src: "/assets/uiux/moodium/videos/demo.mp4",
+          poster: "/assets/uiux/moodium/gallery/slide-04.jpg"
+        }
+      },
       {
         title: { zh: "问题与目标用户", en: "Problem & Audience" },
         src: "/assets/uiux/moodium/gallery/slide-02.jpg"
@@ -487,13 +496,6 @@ export const projects: Project[] = [
       {
         title: { zh: "产品概念", en: "Product Concept" },
         src: "/assets/uiux/moodium/gallery/slide-03.jpg"
-      },
-      {
-        title: { zh: "实机演示", en: "Product Demo" },
-        video: {
-          src: "/assets/uiux/moodium/videos/demo.mp4",
-          poster: "/assets/uiux/moodium/gallery/slide-04.jpg"
-        }
       },
       {
         title: { zh: "多感官交互", en: "Multisensory Interaction" },

@@ -24,6 +24,7 @@ export function ProjectDetail({ project }: { project: Project }) {
   const isLightTheme = project.theme?.text === "#000000";
   const textColor = project.theme?.text ?? "#ffffff";
   const backgroundColor = project.theme?.background;
+  const showFullBanner = project.bannerLayout === "full-image" && Boolean(project.assets.bannerImage);
   const shouldShowShowcase = !project.galleryTabs || activeGalleryTab === "showcase";
   const shouldShowProcess = Boolean(project.galleryTabs && activeGalleryTab === "research");
 
@@ -33,7 +34,10 @@ export function ProjectDetail({ project }: { project: Project }) {
         initial={{ opacity: 0, filter: "blur(10px)" }}
         animate={{ opacity: 1, filter: "blur(0px)" }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="relative left-1/2 min-h-[72vh] w-screen -translate-x-1/2 overflow-hidden bg-panel md:min-h-[82vh]"
+        className={cn(
+          "relative left-1/2 w-screen -translate-x-1/2 overflow-hidden",
+          showFullBanner ? "aspect-[2/1]" : "min-h-[72vh] bg-panel md:min-h-[82vh]"
+        )}
       >
         {project.assets.bannerImage ? (
           <Image
@@ -41,19 +45,26 @@ export function ProjectDetail({ project }: { project: Project }) {
             alt={`${project.title.en} banner`}
             fill
             sizes="100vw"
-            className="object-cover"
+            className={showFullBanner ? "object-contain" : "object-cover"}
             priority
           />
         ) : (
           <div className={cn("absolute inset-0 bg-gradient-to-br", toneClass[project.cover.tone])} />
         )}
-        <div className="absolute inset-0 bg-black/12" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/42 via-transparent to-black/28" />
+        {!showFullBanner && (
+          <>
+            <div className="absolute inset-0 bg-black/12" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/42 via-transparent to-black/28" />
+          </>
+        )}
         <svg
           viewBox="0 0 100 20"
           preserveAspectRatio="none"
           aria-hidden="true"
-          className="absolute -bottom-px left-0 h-32 w-full sm:h-40"
+          className={cn(
+            "pointer-events-none absolute -bottom-px left-0 w-full",
+            showFullBanner ? "h-[8%] max-h-16" : "h-32 sm:h-40"
+          )}
           style={{ color: backgroundColor ?? "#050505" }}
         >
           <path d="M0 6 C24 16 76 16 100 6 V20 H0 Z" fill="currentColor" />
