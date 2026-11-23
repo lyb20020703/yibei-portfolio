@@ -62,6 +62,7 @@ export type Project = {
     src?: string;
     images?: string[];
     video?: { src: string; poster: string };
+    animatedOverlays?: Array<{ src: string; left: number; top: number; width: number; height: number }>;
     layout?: "stack" | "grid";
     columns?: 2 | 3 | 4;
   }>;
@@ -556,7 +557,7 @@ export const projects: Project[] = [
       {
         title: { zh: "实机演示", en: "Product Demo" },
         video: {
-          src: "/assets/uiux/moodium/videos/demo.mp4",
+          src: "/assets/uiux/moodium/videos/demo-hd.mp4",
           poster: "/assets/uiux/moodium/gallery/slide-04.jpg"
         }
       },
@@ -570,11 +571,18 @@ export const projects: Project[] = [
       },
       {
         title: { zh: "多感官交互", en: "Multisensory Interaction" },
-        src: "/assets/uiux/moodium/gallery/slide-05.jpg"
+        src: "/assets/uiux/moodium/gallery/slide-05.jpg",
+        animatedOverlays: [
+          { src: "/assets/uiux/moodium/gallery/interaction.gif", left: 51.55, top: 2.9, width: 43.5, height: 46.8 }
+        ]
       },
       {
         title: { zh: "点云世界", en: "Point Cloud Worlds" },
-        src: "/assets/uiux/moodium/gallery/slide-06.jpg"
+        src: "/assets/uiux/moodium/gallery/slide-06.jpg",
+        animatedOverlays: [
+          { src: "/assets/uiux/moodium/gallery/portal.gif", left: 53.4, top: 5.55, width: 45, height: 42.7 },
+          { src: "/assets/uiux/moodium/gallery/world.gif", left: 53.4, top: 54.4, width: 45, height: 42.7 }
+        ]
       },
       {
         title: { zh: "感官世界与材料搭配", en: "Sensory Worlds & Material Pairings" },

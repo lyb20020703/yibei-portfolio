@@ -133,6 +133,7 @@ export function ProjectDetail({ project }: { project: Project }) {
                   title={item.title ? t(item.title) : undefined}
                   images={item.images ?? (item.src ? [item.src] : [])}
                   video={item.video}
+                  animatedOverlays={item.animatedOverlays}
                   underlineColor={project.theme?.underline ?? "#561134"}
                   titleColor={project.theme?.text ?? "#000000"}
                 />
@@ -348,6 +349,7 @@ function DetailGallerySection({
   title,
   images,
   video,
+  animatedOverlays,
   descriptions,
   underlineColor,
   titleColor,
@@ -356,6 +358,7 @@ function DetailGallerySection({
   title?: string;
   images: string[];
   video?: { src: string; poster: string };
+  animatedOverlays?: Array<{ src: string; left: number; top: number; width: number; height: number }>;
   descriptions?: Array<string | undefined>;
   underlineColor: string;
   titleColor: string;
@@ -390,7 +393,7 @@ function DetailGallerySection({
                 {descriptions[index]}
               </p>
             )}
-            <div className="overflow-hidden rounded-[8px] bg-black/5 shadow-[0_28px_100px_rgba(0,0,0,0.18)]">
+            <div className="relative overflow-hidden rounded-[8px] bg-black/5 shadow-[0_28px_100px_rgba(0,0,0,0.18)]">
               <Image
                 src={src}
                 alt={title ? (images.length > 1 ? `${title} ${index + 1}` : title) : `Gallery image ${index + 1}`}
@@ -399,6 +402,18 @@ function DetailGallerySection({
                 sizes="(min-width: 1536px) 1472px, calc(100vw - 32px)"
                 className="h-auto w-full object-contain"
               />
+              {animatedOverlays?.map((overlay) => (
+                <Image
+                  key={overlay.src}
+                  src={overlay.src}
+                  alt={title ?? "Animated demonstration"}
+                  width={640}
+                  height={360}
+                  unoptimized
+                  className="absolute object-fill"
+                  style={{ left: `${overlay.left}%`, top: `${overlay.top}%`, width: `${overlay.width}%`, height: `${overlay.height}%` }}
+                />
+              ))}
             </div>
           </div>
         ))}
