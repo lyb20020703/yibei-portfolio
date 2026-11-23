@@ -213,24 +213,96 @@ export const siteCopy = {
   }
 };
 
+const gamepilotPages = (...pages: number[]) =>
+  pages.map((page) => `/assets/uiux/gamepilot/pages/page-${String(page).padStart(2, "0")}.jpg`);
+
 export const projects: Project[] = [
   {
     slug: "gamepilot",
     category: "uiux",
     section: "ai-product",
-    placeholder: true,
     title: { zh: "GamePilot", en: "GamePilot" },
-    date: "",
+    date: "2026.10",
     tags: {
-      zh: ["腾讯实习", "Chat Agent", "Model Hub"],
-      en: ["Tencent internship", "Chat Agent", "Model Hub"]
+      zh: ["腾讯实习", "Chat Agent", "工作区改版"],
+      en: ["Tencent internship", "Chat Agent", "Workspace redesign"]
     },
     excerpt: {
-      zh: "AI 游戏资产生成平台。负责 Chat Agent 改版、Skills/MCP 评测接入，主导 Model Hub 从 0 到 1 设计上线。",
-      en: "An AI game-asset generation platform. I redesigned the Chat Agent, evaluated and onboarded Skills/MCPs, and led Model Hub from zero to launch."
+      zh: "AI 游戏资产生成平台的 Chat Agent 改版。用右侧资产抽屉替代预览弹窗，重构对话与资产并行的三栏工作区，并加入评论、擦除、扩图等图片编辑工具。",
+      en: "A Chat Agent redesign for an AI game-asset platform. A right-side asset drawer replaces the preview modal, creating a three-column workspace where conversation and assets stay visible, with comment, erase, and expand tools for images."
     },
-    cover: { tone: "cyan", label: "E01" },
-    assets: projectAssets("uiux", "gamepilot")
+    cover: { tone: "violet", label: "GamePilot" },
+    assets: withProjectMedia(projectAssets("uiux", "gamepilot"), {
+      coverImage: "/assets/uiux/gamepilot/cover/gamepilot-card.jpg",
+      bannerImage: "/assets/uiux/gamepilot/cover/gamepilot-card.jpg"
+    }),
+    meta: {
+      role: { zh: "AI 产品经理实习生，独立负责本次改版", en: "AI Product Manager Intern, sole owner of this redesign" }
+    },
+    bannerLayout: "full-image",
+    theme: { background: "#F7F7FC", text: "#000000", underline: "#7A69EE" },
+    detailMode: "gallery-only",
+    gallery: [
+      { title: { zh: "项目背景与问题", en: "Background & Problem" }, images: gamepilotPages(1, 2, 3) },
+      { title: { zh: "用户与竞品参考", en: "Users & References" }, images: gamepilotPages(4, 5) },
+      { title: { zh: "设计原则与工作流", en: "Principles & Workflow" }, images: gamepilotPages(6, 7) },
+      { title: { zh: "三栏工作区", en: "Three-Column Workspace" }, images: gamepilotPages(8, 9) },
+      { title: { zh: "资产体系", en: "Asset System" }, images: gamepilotPages(10, 11, 12, 13) },
+      { title: { zh: "图片编辑能力", en: "Image Editing" }, images: gamepilotPages(14, 15, 16, 17) },
+      { title: { zh: "多类型资产与边界", en: "Asset Types & Edge Cases" }, images: gamepilotPages(18, 19) },
+      { title: { zh: "项目落地与复盘", en: "Launch & Reflection" }, images: gamepilotPages(20) }
+    ],
+    // The pages above are images, so this text is what the Yibei Agent reads about the project.
+    details: {
+      intro: {
+        zh: "GamePilot 是面向游戏工作室的 AI 资产生成平台。我在腾讯实习期间独立负责 Chat Agent 改版，完成 PRD 与交互方案，协同研发和测试完成评审、验收、走查并推动上线。",
+        en: "GamePilot is an AI asset generation platform for game studios. During my Tencent internship I owned the Chat Agent redesign, wrote the PRD and interaction spec, and worked with engineering and QA through review, acceptance, design QA, and launch."
+      },
+      sections: [
+        {
+          title: { zh: "原有问题", en: "The problem" },
+          body: {
+            zh: "改版前点击对话内资产会打开预览弹窗，弹窗遮挡对话，用户在查看资产、补充提示词、引用旧资产和继续编辑之间要反复开关。本质是对话与资产被设计成了互斥状态。",
+            en: "Opening an asset used to launch a preview modal that covered the chat, so users kept opening and closing it to view assets, add prompts, reuse assets, and keep editing. Conversation and assets had been designed as mutually exclusive states."
+          }
+        },
+        {
+          title: { zh: "目标用户", en: "Target users" },
+          body: {
+            zh: "面向游戏工作室的四类美术工种：概念美术、美宣、角色或场景设计、多媒体制作。",
+            en: "Four kinds of game art roles: concept artists, marketing artists, character or environment designers, and multimedia creators."
+          }
+        },
+        {
+          title: { zh: "竞品参考", en: "References" },
+          body: {
+            zh: "主要参考 Codex 的工作区交互，包括对话与右侧面板并行、在产物上直接评论、面板标签与收起；同时参考 WorkBuddy 的 Agent 工作台形式和豆包的图片编辑操作。",
+            en: "The main reference was the Codex workspace: chat beside a right panel, inline comments on artifacts, and panel tabs with collapse. WorkBuddy informed the agent workbench form, and Doubao informed the image editing interactions."
+          }
+        },
+        {
+          title: { zh: "三栏工作区", en: "Three-column workspace" },
+          body: {
+            zh: "用右侧资产抽屉替代弹窗。左侧历史栏默认 256px、最大 384px；中间对话栏最小 384px 并始终常驻；右侧抽屉默认占屏宽 35%，展示资产时最小 448px。空间优先级是对话栏、资产抽屉、历史栏：空间不足时先收起历史栏，仍不足时抽屉转为覆盖式。",
+            en: "A right-side drawer replaces the modal. The history column defaults to 256px and reaches 384px, the chat column keeps at least 384px and is always present, and the drawer defaults to 35% of the screen with a 448px minimum when showing an asset. Space priority is chat, then drawer, then history: history collapses first, then the drawer becomes an overlay."
+          }
+        },
+        {
+          title: { zh: "资产模型", en: "Asset model" },
+          body: {
+            zh: "资产分为对话内生成的输出资产、已发送的用户上传、待发送的用户上传三类。三类都能以标签打开，但资产总览只展示输出资产，上传素材作为临时资产，不稀释结果列表。参考图也从输入框上方的缩略图区改成正文内的行内标签。",
+            en: "Assets come from three sources: generated outputs, sent uploads, and pending uploads. All can open as tabs, but the overview lists outputs only, so temporary uploads do not dilute results. Reference images also moved from a thumbnail row into inline tags within the prompt."
+          }
+        },
+        {
+          title: { zh: "三种编辑，三种发送逻辑", en: "Three edits, three send logics" },
+          body: {
+            zh: "添加评论需要补充语义，所以和中央输入框合并提交；智能擦除只提交原图和遮罩，智能扩图只使用工具条内的提示词，两者都不读取输入框，避免一次局部编辑带上无关内容。",
+            en: "Comments need added meaning, so they are submitted together with the chat input. Smart Erase sends only the image and mask, and Expand Image uses only its toolbar prompt. Neither reads the chat input, so a local edit never carries unrelated content."
+          }
+        }
+      ]
+    }
   },
   {
     slug: "mulan",
