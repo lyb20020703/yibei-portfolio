@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { useMemo } from "react";
 import { getProjectsBySection, portfolioSections } from "@/data/site";
@@ -14,10 +13,8 @@ import { cn } from "@/lib/utils";
 const copy = {
   kicker: { zh: "Portfolio", en: "Portfolio" },
   title: { zh: "作品集", en: "Portfolio" },
-  lead: { zh: "我在做", en: "I work on" },
-  projects: { zh: "个项目", en: "projects" }
+  lead: { zh: "我在做", en: "I work on" }
 };
-
 const cardContainer = {
   hidden: {},
   show: { transition: { staggerChildren: 0.08 } }
@@ -60,32 +57,6 @@ export function PortfolioView() {
           {t(copy.lead)} <Typewriter key={locale} words={roleWords} className="text-white" />
         </motion.p>
 
-        <motion.ol
-          variants={cardContainer}
-          initial="hidden"
-          animate="show"
-          className="mt-14 divide-y divide-white/[0.08] border-y border-white/[0.08]"
-        >
-          {portfolioSections.map((section, index) => (
-            <motion.li key={section.key} variants={cardItem}>
-              <Link
-                href={`#${section.key}`}
-                className="focus-ring group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-4 py-5 transition-colors hover:bg-white/[0.02] sm:grid-cols-[4rem_14rem_1fr_auto] sm:px-3"
-              >
-                <span className="text-sm tabular-nums text-white/32 transition-colors group-hover:text-glow">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="text-lg text-white transition-transform duration-300 group-hover:translate-x-1">
-                  {t(section.label)}
-                </span>
-                <span className="col-start-2 text-sm text-white/44 sm:col-start-auto">{t(section.scope)}</span>
-                <span className="row-start-1 text-xs tabular-nums text-white/36 sm:row-start-auto">
-                  {getProjectsBySection(section.key).length} {t(copy.projects)}
-                </span>
-              </Link>
-            </motion.li>
-          ))}
-        </motion.ol>
       </header>
 
       <div className="mx-auto max-w-7xl space-y-28">
