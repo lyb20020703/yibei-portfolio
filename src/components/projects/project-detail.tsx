@@ -364,6 +364,12 @@ function DetailGallerySection({
   titleColor: string;
   contained?: boolean;
 }) {
+  const staticImageMask = animatedOverlays?.length
+    ? `url("data:image/svg+xml,${encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><defs><mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="white"/>${animatedOverlays.map((area) => `<rect x="${area.left - 0.45}" y="${area.top - 0.45}" width="${area.width + 0.9}" height="${area.height + 0.9}" fill="black"/>`).join("")}</mask></defs><rect width="100" height="100" fill="white" mask="url(#cut)"/></svg>`
+      )}")`
+    : undefined;
+
   return (
     <motion.figure
       initial={{ opacity: 0, y: 18, filter: "blur(10px)" }}
@@ -393,7 +399,10 @@ function DetailGallerySection({
                 {descriptions[index]}
               </p>
             )}
-            <div className="relative overflow-hidden rounded-[8px] bg-black/5 shadow-[0_28px_100px_rgba(0,0,0,0.18)]">
+            <div
+              className="relative overflow-hidden rounded-[8px] bg-black/5 shadow-[0_28px_100px_rgba(0,0,0,0.18)]"
+              style={animatedOverlays?.length ? { backgroundColor: "#ffffff" } : undefined}
+            >
               <Image
                 src={src}
                 alt={title ? (images.length > 1 ? `${title} ${index + 1}` : title) : `Gallery image ${index + 1}`}
@@ -401,6 +410,14 @@ function DetailGallerySection({
                 height={1400}
                 sizes="(min-width: 1536px) 1472px, calc(100vw - 32px)"
                 className="h-auto w-full object-contain"
+                style={staticImageMask ? {
+                  maskImage: staticImageMask,
+                  WebkitMaskImage: staticImageMask,
+                  maskSize: "100% 100%",
+                  WebkitMaskSize: "100% 100%",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskRepeat: "no-repeat"
+                } : undefined}
               />
               {animatedOverlays?.map((overlay) => (
                 <Image
