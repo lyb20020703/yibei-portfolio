@@ -118,9 +118,10 @@ export function ProjectDetail({ project }: { project: Project }) {
                 />
               ) : (
                 <DetailGallerySection
-                  key={item.src ?? item.images?.join("-")}
+                  key={item.src ?? item.video?.src ?? item.images?.join("-")}
                   title={item.title ? t(item.title) : undefined}
                   images={item.images ?? (item.src ? [item.src] : [])}
+                  video={item.video}
                   underlineColor={project.theme?.underline ?? "#561134"}
                   titleColor={project.theme?.text ?? "#000000"}
                 />
@@ -335,6 +336,7 @@ function ProjectGalleryTabs({
 function DetailGallerySection({
   title,
   images,
+  video,
   descriptions,
   underlineColor,
   titleColor,
@@ -342,6 +344,7 @@ function DetailGallerySection({
 }: {
   title?: string;
   images: string[];
+  video?: { src: string; poster: string };
   descriptions?: Array<string | undefined>;
   underlineColor: string;
   titleColor: string;
@@ -356,6 +359,18 @@ function DetailGallerySection({
       className={cn("mx-auto", contained ? "w-[92vw] max-w-[84rem]" : "w-full max-w-[92rem]")}
     >
       {title && <SectionCaption title={title} titleColor={titleColor} underlineColor={underlineColor} />}
+      {video && (
+        <video
+          controls
+          playsInline
+          preload="none"
+          poster={video.poster}
+          aria-label={title}
+          className="aspect-video w-full rounded-[8px] bg-black object-contain"
+        >
+          <source src={video.src} type="video/mp4" />
+        </video>
+      )}
       <div className={cn(descriptions ? "space-y-20 sm:space-y-28" : "space-y-8 sm:space-y-10")}>
         {images.map((src, index) => (
           <div key={src} className={cn(descriptions && "space-y-6 sm:space-y-8")}>

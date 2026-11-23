@@ -60,6 +60,7 @@ export type Project = {
     title?: LocalizedText;
     src?: string;
     images?: string[];
+    video?: { src: string; poster: string };
     layout?: "stack" | "grid";
     columns?: 2 | 3 | 4;
   }>;
@@ -229,24 +230,6 @@ export const projects: Project[] = [
     },
     cover: { tone: "cyan", label: "E01" },
     assets: projectAssets("uiux", "gamepilot")
-  },
-  {
-    slug: "moodium",
-    category: "uiux",
-    section: "ai-product",
-    placeholder: true,
-    title: { zh: "Moodium", en: "Moodium" },
-    date: "",
-    tags: {
-      zh: ["AI 产品", "情绪陪伴", "Vision Pro"],
-      en: ["AI product", "Emotional companion", "Vision Pro"]
-    },
-    excerpt: {
-      zh: "面向焦虑与压力人群的 AI 情绪陪伴产品。",
-      en: "An AI emotional companion for people living with anxiety and stress."
-    },
-    cover: { tone: "violet", label: "P01" },
-    assets: projectAssets("uiux", "moodium")
   },
   {
     slug: "mulan",
@@ -472,6 +455,64 @@ export const projects: Project[] = [
           "/assets/games/character-design-collection/gallery/4.jpg?v=20260611",
           "/assets/games/character-design-collection/gallery/5.jpg?v=20260622"
         ]
+      }
+    ]
+  },
+  {
+    slug: "moodium",
+    category: "uiux",
+    section: "ai-product",
+    title: { zh: "Moodium", en: "Moodium" },
+    date: "2026.11",
+    tags: {
+      zh: ["Vision Pro", "混合现实", "多感官交互"],
+      en: ["Vision Pro", "Mixed Reality", "Multisensory Interaction"]
+    },
+    excerpt: {
+      zh: "一款面向学习与工作间隙的 Vision Pro 混合现实情绪舒缓应用。挤捏实体感官袋，进入会回应触摸的数字世界。",
+      en: "A Vision Pro mixed reality app for unwinding during short study or work breaks. Squeeze a physical sensory pouch to explore digital worlds that respond to touch."
+    },
+    cover: { tone: "violet", label: "Moodium" },
+    assets: withProjectMedia(projectAssets("uiux", "moodium"), {
+      coverImage: "/assets/uiux/moodium/cover/banner/moodium.jpg",
+      bannerImage: "/assets/uiux/moodium/cover/banner/moodium.jpg"
+    }),
+    theme: { background: "#F7F3FC", text: "#000000", underline: "#9365D9" },
+    detailMode: "gallery-only",
+    gallery: [
+      {
+        title: { zh: "问题与目标用户", en: "Problem & Audience" },
+        src: "/assets/uiux/moodium/gallery/slide-02.jpg"
+      },
+      {
+        title: { zh: "产品概念", en: "Product Concept" },
+        src: "/assets/uiux/moodium/gallery/slide-03.jpg"
+      },
+      {
+        title: { zh: "实机演示", en: "Product Demo" },
+        video: {
+          src: "/assets/uiux/moodium/videos/demo.mp4",
+          poster: "/assets/uiux/moodium/gallery/slide-04.jpg"
+        }
+      },
+      {
+        title: { zh: "多感官交互", en: "Multisensory Interaction" },
+        src: "/assets/uiux/moodium/gallery/slide-05.jpg"
+      },
+      {
+        title: { zh: "点云世界", en: "Point Cloud Worlds" },
+        src: "/assets/uiux/moodium/gallery/slide-06.jpg"
+      },
+      {
+        title: { zh: "感官世界与材料搭配", en: "Sensory Worlds & Material Pairings" },
+        src: "/assets/uiux/moodium/gallery/slide-07.jpg"
+      },
+      {
+        title: { zh: "日常应用场景", en: "Everyday Applications" },
+        src: "/assets/uiux/moodium/gallery/slide-08.jpg"
+      },
+      {
+        src: "/assets/uiux/moodium/gallery/slide-10.jpg"
       }
     ]
   },
