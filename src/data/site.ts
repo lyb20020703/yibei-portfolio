@@ -542,8 +542,8 @@ export const projects: Project[] = [
       en: ["Vision Pro", "Mixed Reality", "Multisensory Interaction"]
     },
     excerpt: {
-      zh: "一款面向学习与工作间隙的 Vision Pro 混合现实情绪舒缓应用。挤捏实体感官袋，进入会回应触摸的数字世界。",
-      en: "A Vision Pro mixed reality app for unwinding during short study or work breaks. Squeeze a physical sensory pouch to explore digital worlds that respond to touch."
+      zh: "一款面向学习与工作间隙的 Vision Pro 混合现实情绪舒缓应用。挤捏实体感官袋，进入会回应触摸的数字世界。荣获 2026 中国高校计算机大赛移动应用创新赛国家二等奖。",
+      en: "A Vision Pro mixed reality app for unwinding during short study or work breaks. Squeeze a physical sensory pouch to explore digital worlds that respond to touch. Awarded the National Second Prize in the Mobile Application Innovation Contest of the 2026 China Collegiate Computing Contest."
     },
     cover: { tone: "violet", label: "Moodium" },
     assets: withProjectMedia(projectAssets("uiux", "moodium"), {
