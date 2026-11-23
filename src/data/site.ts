@@ -179,8 +179,7 @@ export const portfolioSections: PortfolioSection[] = [
   {
     key: "visual",
     label: { zh: "视觉与品牌", en: "Visual & Brand" },
-    scope: { zh: "营销视觉、概念设计、品牌影像", en: "Campaign visuals, concept art, brand film" },
-    compact: true
+    scope: { zh: "营销视觉、概念设计、品牌影像", en: "Campaign visuals, concept art, brand film" }
   }
 ];
 
