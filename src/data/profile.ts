@@ -214,7 +214,7 @@ export const traits: Trait[] = [
   },
   {
     title: { zh: "热爱游戏", en: "Loves games" },
-    detail: { zh: "也做游戏和桌游", en: "Makes them too, digital and tabletop" }
+    detail: { zh: "查看我的游戏旅程", en: "Explore my gaming journey" }
   },
   {
     title: { zh: "互联网原住民", en: "Internet native" },
