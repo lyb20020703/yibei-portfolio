@@ -6,6 +6,7 @@ import { siteCopy } from "@/data/site";
 import { useLanguage } from "@/context/language-context";
 import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
+import { GameLibrary } from "@/components/about/game-library";
 
 const copy = {
   kicker: { zh: "About", en: "About" },
@@ -140,6 +141,8 @@ export function AboutView() {
             </ul>
           </Reveal>
         </div>
+
+        <GameLibrary />
 
         <Reveal className="mt-28">
           <p className="text-sm text-white/44">{t(copy.contact)}</p>
