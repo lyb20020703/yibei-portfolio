@@ -8,7 +8,7 @@ import { Reveal } from "@/components/motion/reveal";
 
 const copy = {
   kicker: { zh: "Toolkit", en: "Toolkit" },
-  title: { zh: "常用工具", en: "Tools I use" },
+  title: { zh: "软件技能", en: "Software Skills" },
   next: [
     {
       href: "/portfolio",
@@ -21,6 +21,18 @@ const copy = {
       hint: { zh: "教育背景、荣誉与个人兴趣", en: "Education, honors, and interests" }
     }
   ]
+};
+
+const softwareIcons: Record<string, string> = {
+  Codex: "openai",
+  "Claude Code": "claude",
+  ComfyUI: "comfyui",
+  Figma: "figma",
+  Photoshop: "adobephotoshop",
+  Illustrator: "adobeillustrator",
+  Blender: "blender",
+  Unity: "unity",
+  Excel: "microsoftexcel"
 };
 
 export function SkillsSection() {
@@ -43,8 +55,22 @@ export function SkillsSection() {
                   <motion.span
                     key={item}
                     whileHover={{ y: -2 }}
-                    className="rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-sm text-white/80"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-sm text-white/80"
                   >
+                    <span
+                      aria-hidden="true"
+                      className="h-4 w-4 shrink-0 bg-current"
+                      style={{
+                        maskImage: `url(/assets/icons/software/${softwareIcons[item]}.svg)`,
+                        WebkitMaskImage: `url(/assets/icons/software/${softwareIcons[item]}.svg)`,
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center"
+                      }}
+                    />
                     {item}
                   </motion.span>
                 ))}
