@@ -76,6 +76,17 @@ export function AboutView() {
               <span className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-glow/0 blur-2xl transition-colors duration-500 group-hover:bg-glow/12" />
               <p className="relative text-lg font-medium text-white">{t(trait.title)}</p>
               <p className="relative mt-2 max-w-xl text-sm leading-6 text-white/50">{t(trait.detail)}</p>
+              {trait.title.en === "Loves games" && (
+                <a href="#game-library" aria-label={t(trait.title)} className="focus-ring absolute inset-0 rounded-[16px]"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    document.getElementById("game-library")?.scrollIntoView({
+                      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+                      block: "start"
+                    });
+                    window.history.replaceState(null, "", "#game-library");
+                  }} />
+              )}
               {trait.links && (
                 <div className="relative mt-5 grid gap-2 sm:grid-cols-3">
                   {trait.links.map((link) => (

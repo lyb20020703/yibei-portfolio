@@ -8,9 +8,9 @@ const games = [
   { zh: "胡闹厨房", en: "Overcooked!", genre: "coop", app: 448510 },
   { zh: "泰拉瑞亚", en: "Terraria", genre: "sandbox", app: 105600 },
   { zh: "文明 VI", en: "Civilization VI", genre: "strategy", app: 289070 },
-  { zh: "王者荣耀", en: "Honor of Kings", genre: "competitive", app: null },
-  { zh: "和平精英", en: "Game for Peace", genre: "competitive", app: null },
-  { zh: "代号鸢", en: "Ashes of the Kingdom", genre: "narrative", app: null }
+  { zh: "王者荣耀", en: "Honor of Kings", genre: "competitive", app: null, cover: "/assets/profile/games/honor.jpg" },
+  { zh: "和平精英", en: "Game for Peace", genre: "competitive", app: null, cover: "/assets/profile/games/peace.jpg" },
+  { zh: "代号鸢", en: "Ashes of the Kingdom", genre: "narrative", app: null, cover: "/assets/profile/games/kite.jpg" }
 ];
 
 const genres = [
@@ -27,19 +27,29 @@ export function GameLibrary() {
   const { locale } = useLanguage();
   const [query, setQuery] = useState("");
   const [genre, setGenre] = useState("all");
-  const [failed, setFailed] = useState<number[]>([]);
+  const [cardSize, setCardSize] = useState(210);
+  const [failed, setFailed] = useState<string[]>([]);
   const visible = games.filter((game) =>
     (genre === "all" || game.genre === genre) &&
     (game.zh + game.en).toLowerCase().includes(query.trim().toLowerCase())
   );
 
   return (
-    <section className="mt-28" aria-labelledby="game-library-title">
+    <section id="game-library" className="mt-28 scroll-mt-32" aria-labelledby="game-library-title">
       <div className="flex flex-wrap items-center justify-between gap-6">
         <h2 id="game-library-title" className="text-2xl font-medium text-white sm:text-3xl">
           {locale === "zh" ? "游戏库" : "Game Library"}
           <span className="ml-3 text-base font-normal tabular-nums text-white/40">{games.length}</span>
         </h2>
+        <label className="flex items-center gap-3 text-xs text-white/50">
+          <span>{locale === "zh" ? "卡片大小" : "Card size"}</span>
+          <span aria-hidden="true">−</span>
+          <input type="range" min="130" max="300" step="10" value={cardSize}
+            onChange={(event) => setCardSize(Number(event.target.value))}
+            aria-label={locale === "zh" ? "游戏卡片大小" : "Game card size"}
+            className="h-5 w-36 cursor-pointer accent-cyan-300" />
+          <span aria-hidden="true">+</span>
+        </label>
         <label className="flex items-center gap-3 border-b border-white/20 py-2 text-white/50">
           <input
             type="search"
@@ -59,7 +69,8 @@ export function GameLibrary() {
           </button>
         ))}
       </div>
-      <ul className="mt-8 grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
+      <ul className="mt-8 grid gap-x-5 gap-y-8"
+        style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${cardSize}px), 1fr))` }}>
         {visible.map((game) => (
           <li key={game.en} className="group min-w-0">
             <div className="relative aspect-[2/3] overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] transition-transform duration-300 group-hover:-translate-y-1">
@@ -67,12 +78,12 @@ export function GameLibrary() {
                 <span className="text-xs uppercase text-glow/70">{genres.find((entry) => entry.id === game.genre)?.[locale]}</span>
                 <span className="mt-3 text-xl font-medium leading-relaxed text-white">{game[locale]}</span>
               </div>
-              {game.app && !failed.includes(game.app) && (
+              {(game.cover || game.app) && !failed.includes(game.en) && (
                 // Store artwork is decorative; the game name is available below.
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={`https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/${game.app}/library_600x900.jpg`}
-                  alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover"
-                  onError={() => setFailed((current) => [...current, game.app!])} />
+                <img src={game.cover ?? `https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/${game.app}/library_600x900.jpg`}
+                  alt="" loading="lazy" className={`absolute inset-0 h-full w-full ${game.cover ? "object-contain" : "object-cover"}`}
+                  onError={() => setFailed((current) => [...current, game.en])} />
               )}
             </div>
             <h3 className="mt-3 text-sm font-medium text-white/85">{game[locale]}</h3>
