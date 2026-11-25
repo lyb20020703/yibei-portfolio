@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { skillGroups } from "@/data/profile";
+import { experiencedSoftware, skillGroups } from "@/data/profile";
+import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/language-context";
 import { Reveal } from "@/components/motion/reveal";
 
@@ -32,7 +33,10 @@ const softwareIcons: Record<string, string> = {
   Illustrator: "adobeillustrator",
   Blender: "blender",
   Unity: "unity",
-  Excel: "microsoftexcel"
+  Excel: "microsoftexcel",
+  "After Effects": "adobeaftereffects",
+  "Premiere Pro": "adobepremierepro",
+  Swift: "swift"
 };
 
 export function SkillsSection() {
@@ -55,7 +59,13 @@ export function SkillsSection() {
                   <motion.span
                     key={item}
                     whileHover={{ y: -2 }}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-sm text-white/80"
+                    title={experiencedSoftware.includes(item) ? t({ zh: "有经验", en: "Experienced" }) : t({ zh: "熟练", en: "Proficient" })}
+                    className={cn(
+                      "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm",
+                      experiencedSoftware.includes(item)
+                        ? "border-dashed border-white/30 text-white/60"
+                        : "border-solid border-white/35 bg-white/[0.04] text-white/85"
+                    )}
                   >
                     <span
                       aria-hidden="true"
@@ -77,6 +87,17 @@ export function SkillsSection() {
               </div>
             </Reveal>
           ))}
+        </div>
+
+        <div className="mt-7 flex items-center gap-6 text-xs text-white/50">
+          <span className="inline-flex items-center gap-2">
+            <span aria-hidden="true" className="h-3 w-3 rounded-full border border-solid border-white/50" />
+            {t({ zh: "熟练", en: "Proficient" })}
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span aria-hidden="true" className="h-3 w-3 rounded-full border border-dashed border-white/50" />
+            {t({ zh: "有经验", en: "Experienced" })}
+          </span>
         </div>
 
         <div className="mt-24 grid gap-4 sm:grid-cols-2">

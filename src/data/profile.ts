@@ -121,9 +121,11 @@ export type SkillGroup = {
 
 export const skillGroups: SkillGroup[] = [
   { label: { zh: "AI 工具", en: "AI tools" }, items: ["Codex", "Claude Code", "ComfyUI"] },
-  { label: { zh: "设计", en: "Design" }, items: ["Figma", "Photoshop", "Illustrator", "Blender"] },
-  { label: { zh: "开发与数据", en: "Build & data" }, items: ["Unity", "Excel"] }
+  { label: { zh: "设计", en: "Design" }, items: ["Figma", "Photoshop", "Illustrator", "Blender", "After Effects", "Premiere Pro"] },
+  { label: { zh: "开发与数据", en: "Build & data" }, items: ["Unity", "Excel", "Swift"] }
 ];
+
+export const experiencedSoftware = ["ComfyUI", "After Effects", "Premiere Pro", "Swift"];
 
 export type EducationItem = {
   school: LocalizedText;
