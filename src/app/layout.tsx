@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "Yibei 的个人作品集，记录 AI 产品、交互设计、AIGC 与游戏创作。",
   applicationName: "Yibei Portfolio",
   icons: {
-    icon: { url: "/icon.svg", type: "image/svg+xml" }
+    icon: { url: "/icon.svg?v=windows-1", type: "image/svg+xml" }
   }
 };
 
