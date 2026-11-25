@@ -25,14 +25,10 @@ const genres = [
 
 export function GameLibrary() {
   const { locale } = useLanguage();
-  const [query, setQuery] = useState("");
   const [genre, setGenre] = useState("all");
   const [cardSize, setCardSize] = useState(210);
   const [failed, setFailed] = useState<string[]>([]);
-  const visible = games.filter((game) =>
-    (genre === "all" || game.genre === genre) &&
-    (game.zh + game.en).toLowerCase().includes(query.trim().toLowerCase())
-  );
+  const visible = games.filter((game) => genre === "all" || game.genre === genre);
 
   return (
     <section id="game-library" className="mt-28 scroll-mt-32" aria-labelledby="game-library-title">
@@ -41,24 +37,14 @@ export function GameLibrary() {
           {locale === "zh" ? "游戏库" : "Game Library"}
           <span className="ml-3 text-base font-normal tabular-nums text-white/40">{games.length}</span>
         </h2>
-        <label className="flex items-center gap-3 text-xs text-white/50">
+        <label className="ml-auto flex min-h-10 items-center gap-3 text-xs text-white/45">
           <span>{locale === "zh" ? "卡片大小" : "Card size"}</span>
           <span aria-hidden="true">−</span>
           <input type="range" min="130" max="300" step="10" value={cardSize}
             onChange={(event) => setCardSize(Number(event.target.value))}
             aria-label={locale === "zh" ? "游戏卡片大小" : "Game card size"}
-            className="h-5 w-36 cursor-pointer accent-cyan-300" />
+            className="game-card-size h-6 w-36 cursor-pointer" />
           <span aria-hidden="true">+</span>
-        </label>
-        <label className="flex items-center gap-3 border-b border-white/20 py-2 text-white/50">
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            aria-label={locale === "zh" ? "搜索游戏" : "Search games"}
-            placeholder={locale === "zh" ? "搜索游戏" : "Search games"}
-            className="w-48 bg-transparent text-sm text-white outline-none"
-          />
         </label>
       </div>
       <div className="mt-7 flex flex-wrap gap-2" aria-label={locale === "zh" ? "游戏类型" : "Game genres"}>

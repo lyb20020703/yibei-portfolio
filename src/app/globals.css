@@ -88,3 +88,40 @@ a {
   html { scroll-behavior: auto; }
   .skill-shimmer, .caret::after { animation: none; }
 }
+/* Neutral range control scoped to the personal game library. */
+.game-card-size {
+  appearance: none;
+  background: transparent;
+  accent-color: #e5e5e5;
+}
+.game-card-size::-webkit-slider-runnable-track {
+  height: 2px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.24);
+}
+.game-card-size::-moz-range-track {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.24);
+}
+.game-card-size::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -5px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: #d4d4d4;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.game-card-size::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: #d4d4d4;
+}
+.game-card-size:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
