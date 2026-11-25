@@ -9,7 +9,7 @@ const games = [
   { zh: "泰拉瑞亚", en: "Terraria", genre: "sandbox", app: 105600 },
   { zh: "文明 VI", en: "Civilization VI", genre: "strategy", app: 289070 },
   { zh: "王者荣耀", en: "Honor of Kings", genre: "competitive", app: null, cover: "/assets/profile/games/honor-poster.jpg" },
-  { zh: "和平精英", en: "Game for Peace", genre: "competitive", app: null, cover: "/assets/profile/games/peace-poster.jpg" },
+  { zh: "和平精英", en: "Game for Peace", genre: "competitive", app: null, cover: "/assets/profile/games/peace-poster-v2.jpg" },
   { zh: "代号鸢", en: "Ashes of the Kingdom", genre: "narrative", app: null, cover: "/assets/profile/games/kite-poster.png" },
   { zh: "桃源深处有人家", en: "Return to the Countryside", genre: "simulation", app: null, cover: "/assets/profile/games/taoyuan-poster.jpg" }
 ];
