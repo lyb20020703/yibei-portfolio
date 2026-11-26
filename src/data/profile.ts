@@ -9,12 +9,12 @@ export const intro: LocalizedText[] = [
     en: "Master's student in Industrial Design Engineering at Shanghai Jiao Tong University, graduating March 2028. BA in Visual Communication Design (GPA 3.88/4.3, top 15%), with an exchange semester at Monash University."
   },
   {
-    zh: "在腾讯 AI 效能平台做 AI 产品经理实习生，参与 AI 游戏资产生成平台 GamePilot 的建设，主导 Model Hub 从 0 到 1 设计上线。",
-    en: "AI product manager intern on Tencent's AI efficiency platform, working on the AI game-asset platform GamePilot and leading Model Hub from zero to launch."
+    zh: "曾在腾讯与携程实习：在腾讯 AI 效能平台担任 AI 产品经理实习生，参与 GamePilot 建设，主导 Model Hub 从 0 到 1 设计上线；在携程负责礼品卡营销活动的视觉与运营。",
+    en: "Interned at Tencent and Trip.com. At Tencent, I worked as an AI product manager intern on GamePilot and led Model Hub from zero to launch. At Trip.com, I handled visuals and operations for gift card campaigns."
   },
   {
-    zh: "在携程负责礼品卡营销活动的视觉与运营；与字节跳动即梦 AI 合作，导演了 2 支心理热线公益动画短片。",
-    en: "Ran visuals and operations for Trip.com gift card campaigns, and directed two animated public-service shorts with ByteDance Jimeng AI."
+    zh: "项目创作方面，与字节跳动即梦 AI 合作，导演了 2 支心理热线公益动画短片，探索 AIGC 在影像叙事中的应用。",
+    en: "For my creative projects, I collaborated with ByteDance Jimeng AI to direct two animated mental health hotline public-service shorts, exploring AI-generated content in visual storytelling."
   },
   {
     zh: "我关注 AI 产品，在工作中深度使用 AI，能从产品构思、交互设计一直做到原型落地。",
