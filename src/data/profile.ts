@@ -13,12 +13,12 @@ export const intro: LocalizedText[] = [
     en: "Interned at Tencent and Trip.com. At Tencent, I worked as an AI product manager intern on GamePilot and led Model Hub from zero to launch. At Trip.com, I handled visuals and operations for gift card campaigns."
   },
   {
-    zh: "项目创作方面，与字节跳动即梦 AI 合作，导演了 2 支心理热线公益动画短片，探索 AIGC 在影像叙事中的应用。",
-    en: "For my creative projects, I collaborated with ByteDance Jimeng AI to direct two animated mental health hotline public-service shorts, exploring AI-generated content in visual storytelling."
+    zh: "项目创作方面，与字节跳动即梦 AI 合作，导演了 2 支心理热线公益动画短片。熟练运用 AIGC 进行内容创作，能结合多模型完成图像、动画与视频制作，将创意转化为完整的影像叙事。",
+    en: "I collaborated with ByteDance Jimeng AI to direct two animated mental health hotline public-service shorts. I am proficient in AI-assisted content creation, combining multiple models for images, animation, and video to turn creative ideas into complete visual stories."
   },
   {
-    zh: "我关注 AI 产品，在工作中深度使用 AI，能从产品构思、交互设计一直做到原型落地。",
-    en: "I focus on AI products and use AI deeply in my own work, taking ideas from concept and interaction design through to working prototypes."
+    zh: "我关注 AI 产品，在工作中深度使用 AI，也有独立 AI 产品实践，能从产品构思、交互设计一直做到原型落地。",
+    en: "I focus on AI products, use AI deeply in my own work, and have independently built AI products, taking ideas from concept and interaction design through to working prototypes."
   }
 ];
 
