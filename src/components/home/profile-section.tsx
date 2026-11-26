@@ -25,8 +25,7 @@ export function ProfileSection() {
 
   return (
     <section className="px-4 py-24 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1fr_minmax(0,30rem)] lg:gap-20">
-        <div>
+      <div className="mx-auto max-w-7xl">
           <Reveal>
             <p className="text-xs uppercase tracking-[0.34em] text-white/36">{t(copy.kicker)}</p>
             <h2 className="mt-4 text-3xl font-medium text-white sm:text-5xl">{t(copy.title)}</h2>
@@ -39,7 +38,8 @@ export function ProfileSection() {
             </div>
           </Reveal>
 
-          <div ref={lineRef} className="relative mt-12 pl-8">
+        <div className="mt-12 grid items-start gap-14 lg:grid-cols-[1fr_minmax(0,30rem)] lg:gap-20">
+          <div ref={lineRef} className="relative min-w-0 pl-8">
             <span className="absolute bottom-2 left-[5px] top-2 w-px bg-white/10" aria-hidden="true" />
             <motion.span
               style={{ scaleY: lineScale }}
@@ -60,11 +60,11 @@ export function ProfileSection() {
               ))}
             </div>
           </div>
-        </div>
 
         <Reveal delay={0.12} className="lg:sticky lg:top-28 lg:self-start">
           <AgentDemo />
         </Reveal>
+        </div>
       </div>
     </section>
   );
