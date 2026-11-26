@@ -468,7 +468,7 @@ export const projects: Project[] = [
     },
     cover: { tone: "green", label: "Billionaire" },
     assets: withProjectMedia(projectAssets("games", "billionaire"), {
-      coverImage: "/assets/games/billionaire/gallery/prize.png",
+      coverImage: "/assets/games/billionaire/cover/billionaire-card.jpg",
       bannerImage: "/assets/games/billionaire/gallery/prize.png"
     }),
     bannerLayout: "full-image",
