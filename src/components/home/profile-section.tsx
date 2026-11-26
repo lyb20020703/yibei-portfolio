@@ -38,7 +38,7 @@ export function ProfileSection() {
             </div>
           </Reveal>
 
-        <div className="mt-12 grid items-start gap-14 lg:grid-cols-[1fr_minmax(0,30rem)] lg:gap-20">
+        <div className="mt-12 grid items-start gap-14 lg:grid-cols-[1fr_minmax(0,30rem)] lg:items-end lg:gap-20">
           <div ref={lineRef} className="relative min-w-0 pl-8">
             <span className="absolute bottom-2 left-[5px] top-2 w-px bg-white/10" aria-hidden="true" />
             <motion.span
@@ -61,7 +61,7 @@ export function ProfileSection() {
             </div>
           </div>
 
-        <Reveal delay={0.12} className="lg:sticky lg:top-28 lg:self-start">
+        <Reveal delay={0.12} className="min-w-0 lg:self-end">
           <AgentDemo />
         </Reveal>
         </div>
