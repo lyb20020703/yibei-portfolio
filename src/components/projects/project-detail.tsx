@@ -86,9 +86,16 @@ export function ProjectDetail({ project }: { project: Project }) {
           </h1>
           <ProjectTagList tags={project.tags[locale]} className="mt-7 justify-center" light={isLightTheme} />
           <p className={cn("mx-auto mt-7 max-w-2xl text-lg leading-8", isLightTheme ? "text-black/70" : "text-white/64")}>{t(project.excerpt)}</p>
-          <p className={cn("mx-auto mt-4 text-sm tracking-[0.16em]", isLightTheme ? "text-black/54" : "text-white/44")}>
+          {project.date && <p className={cn("mx-auto mt-4 text-sm tracking-[0.16em]", isLightTheme ? "text-black/54" : "text-white/44")}>
             {projectDateLabel(project.date, locale)}
-          </p>
+          </p>}
+          {project.repository && (
+            <a href={project.repository} target="_blank" rel="noopener noreferrer"
+              className="focus-ring mt-7 inline-flex items-center gap-2 rounded-lg border border-white/20 px-5 py-3 text-sm text-white/80 transition-colors hover:border-white/50 hover:bg-white/5">
+              {locale === "zh" ? "在 GitHub 查看项目" : "View project on GitHub"}
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
         </motion.header>
 
         {project.galleryTabs && (

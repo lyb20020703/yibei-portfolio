@@ -19,6 +19,7 @@ export type Project = {
   hidden?: boolean;
   // Case study not written yet: card shows "整理中" and has no detail page.
   placeholder?: boolean;
+  repository?: string;
   title: LocalizedText;
   subtitle?: LocalizedText;
   date: string;
@@ -454,19 +455,52 @@ export const projects: Project[] = [
     slug: "billionaire",
     category: "games",
     section: "games",
-    placeholder: true,
+    repository: "https://github.com/lyb20020703/Billionaire",
     title: { zh: "谁能成为亿万负喵", en: "Billionaire" },
     date: "",
     tags: {
-      zh: ["Unity", "肉鸽卡牌", "游戏 Demo"],
-      en: ["Unity", "Roguelike Deckbuilder", "Game Demo"]
+      zh: ["Unity", "肉鸽卡牌", "开发中"],
+      en: ["Unity", "Roguelike Deckbuilder", "In Development"]
     },
     excerpt: {
       zh: "一款 2D 肉鸽卡牌游戏 Demo。在七天内花光一亿元，通过商业街探索、卡牌战斗与构筑成长，挑战更高的负债评级。",
       en: "A 2D roguelike card game demo. Spend one hundred million in seven days through shopping-street exploration, card battles, and deckbuilding to earn a higher debt rating."
     },
     cover: { tone: "green", label: "Billionaire" },
-    assets: projectAssets("games", "billionaire")
+    assets: withProjectMedia(projectAssets("games", "billionaire"), {
+      coverImage: "/assets/games/billionaire/gallery/prize.png",
+      bannerImage: "/assets/games/billionaire/gallery/prize.png"
+    }),
+    bannerLayout: "full-image",
+    theme: { background: "#050505", text: "#ffffff", underline: "#A8CFB9" },
+    gallery: [
+      { title: { zh: "一亿元，七天，花光它", en: "One Hundred Million. Seven Days. Spend It All." }, src: "/assets/games/billionaire/cover/homepage.png" },
+      { title: { zh: "奖励背后的隐藏条款", en: "The Fine Print" }, src: "/assets/games/billionaire/gallery/rules.png" }
+    ],
+    details: {
+      intro: {
+        zh: "白泡泡获得一亿元奖金，却必须在七天内花光。当前为持续开发中的 Unity 2D 肉鸽卡牌 MVP。",
+        en: "Baipaopao wins one hundred million, but must spend it in seven days. A Unity 2D roguelike card MVP in active development."
+      },
+      sections: [
+        {
+          title: { zh: "探索商业街", en: "Explore the Shopping Street" },
+          body: { zh: "点击骰子转盘暂停指针，决定前进步数。沿途触发店铺、随机事件、休息和奖励；每天默认四次骰子行动，在有限回合里规划消费路线。", en: "Stop the dice spinner to decide how far to move. Encounter shops, random events, rest stops, and rewards, planning your spending route around four default dice actions each day." }
+        },
+        {
+          title: { zh: "用卡牌完成消费", en: "Spend Through Card Battles" },
+          body: { zh: "消费卡与消费力卡共用三个行动槽，道具卡拥有独立槽位。拖拽摆牌、依次结算，累计消费达到店铺目标即可获胜；消费力跨战斗保留，耗尽则失败。", en: "Spending and spending-power cards share three action slots, with a separate slot for items. Drag cards into place and resolve them in order to meet each shop's spending target. Spending power persists between battles; running out ends the run." }
+        },
+        {
+          title: { zh: "构筑成长与七天挑战", en: "Deckbuilding & the Seven-Day Challenge" },
+          body: { zh: "用欠条购买新卡或删除基础牌，战斗胜利后选择永久 Buff。未使用的欠条在日终自动抵扣资产，七天后根据消费与负债解锁不同结局：花得越多、负债越深，最终评级越高。", en: "Use IOUs to buy cards or remove starter cards, and choose permanent buffs after victories. Unused IOUs offset assets at the end of each day. After seven days, spending and debt determine your ending: spend more and go deeper into debt for a higher rating." }
+        },
+        {
+          title: { zh: "开发状态", en: "Development Status" },
+          body: { zh: "目前为持续迭代中的 MVP，界面、素材与数值仍在调整。仓库使用 Unity 6000.0.30f1，打开 StartScene 即可在编辑器运行；当前页面展示项目设定与原始美术素材，并非游戏实机截图，暂未提供在线试玩。", en: "An actively iterated MVP with UI, assets, and balancing still evolving. Open StartScene in Unity 6000.0.30f1 to run it in the editor. This page presents the concept and repository artwork, not gameplay screenshots. No browser demo is currently available." }
+        }
+      ]
+    }
   },
   {
     slug: "let-her-talk",

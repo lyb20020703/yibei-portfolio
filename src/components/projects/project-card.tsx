@@ -23,7 +23,7 @@ export function ProjectCard({ project }: { project: Project }) {
         </div>
         <h3 className="mt-4 text-xl font-medium text-white">{t(project.title)}</h3>
         <p className="mt-3 min-h-12 text-sm leading-6 text-white/56">{t(project.excerpt)}</p>
-        {!project.placeholder && (
+        {!project.placeholder && project.date && (
           <div className="mt-5 text-xs tracking-[0.16em] text-white/42 transition-colors group-hover:text-white/76">
             {projectDateLabel(project.date, locale)}
           </div>
