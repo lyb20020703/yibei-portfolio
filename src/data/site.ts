@@ -3,7 +3,7 @@ export type Locale = "zh" | "en";
 export type LocalizedText = Record<Locale, string>;
 
 // Portfolio page sections, in display order.
-export type SectionKey = "ai-product" | "aigc" | "product-design" | "games" | "visual";
+export type SectionKey = "ai-product" | "aigc" | "product-design" | "games" | "visual" | "archive";
 
 // Top-level pages in the nav.
 export type CategoryKey = "home" | "portfolio" | "about";
@@ -181,6 +181,12 @@ export const portfolioSections: PortfolioSection[] = [
     key: "visual",
     label: { zh: "视觉与品牌", en: "Visual & Brand" },
     scope: { zh: "营销视觉、概念设计、品牌影像", en: "Campaign visuals, concept art, brand film" }
+  },
+  {
+    key: "archive",
+    label: { zh: "往期项目", en: "Earlier Work" },
+    scope: { zh: "早期的桌游、服务设计与影像探索", en: "Earlier explorations in board games, service design, and film" },
+    compact: true
   }
 ];
 
@@ -447,7 +453,7 @@ export const projects: Project[] = [
   {
     slug: "let-her-talk",
     category: "games",
-    section: "games",
+    section: "archive",
     title: { zh: "Let Her Talk", en: "Let Her Talk" },
     date: "2024.12",
     tags: { zh: ["桌游", "体验设计", "思辨设计", "AR"], en: ["Board game", "Experience design", "Speculative Design", "AR"] },
@@ -804,7 +810,7 @@ export const projects: Project[] = [
   {
     slug: "adapt-u",
     category: "uiux",
-    section: "product-design",
+    section: "archive",
     title: { zh: "adapt-U", en: "adapt-U" },
     date: "2024.07",
     tags: { zh: ["服务设计"], en: ["Service design"] },
@@ -1011,7 +1017,7 @@ export const projects: Project[] = [
   {
     slug: "auralis-film",
     category: "ai-films",
-    section: "visual",
+    section: "archive",
     title: { zh: "百分之思", en: "Percent Thought" },
     date: "2024.11",
     tags: { zh: ["广告", "微电影", "导演"], en: ["Advertising", "Microfilm", "Director"] },

@@ -27,7 +27,7 @@ const cardItem = {
 
 export function PortfolioView() {
   const { t, locale } = useLanguage();
-  const roleWords = useMemo(() => portfolioSections.map((section) => t(section.label)), [t]);
+  const roleWords = useMemo(() => portfolioSections.filter((section) => !section.compact).map((section) => t(section.label)), [t]);
 
   return (
     <div className="px-4 pb-16 sm:px-6 lg:px-8">
@@ -68,11 +68,11 @@ export function PortfolioView() {
             <section key={section.key} id={section.key} className="scroll-mt-32">
               <Reveal>
                 <div className="flex items-end gap-5 border-b border-white/10 pb-6">
-                  <span className="text-6xl font-semibold leading-none tracking-tight text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.28)] sm:text-8xl">
+                  {!section.compact && <span className="text-6xl font-semibold leading-none tracking-tight text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.28)] sm:text-8xl">
                     {String(index + 1).padStart(2, "0")}
-                  </span>
+                  </span>}
                   <div className="min-w-0 flex-1 pb-1">
-                    <h2 className="text-2xl font-medium text-white sm:text-4xl">{t(section.label)}</h2>
+                    <h2 className={cn("font-medium", section.compact ? "text-xl text-white/65" : "text-2xl text-white sm:text-4xl")}>{t(section.label)}</h2>
                     <p className="mt-2 text-sm text-white/44">{t(section.scope)}</p>
                   </div>
                   <span className="hidden pb-2 text-xs uppercase tabular-nums tracking-[0.24em] text-white/32 sm:block">
