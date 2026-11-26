@@ -185,7 +185,7 @@ export const portfolioSections: PortfolioSection[] = [
   {
     key: "archive",
     label: { zh: "往期项目", en: "Earlier Work" },
-    scope: { zh: "早期的桌游、服务设计与影像探索", en: "Earlier explorations in board games, service design, and film" },
+    scope: { zh: "在 AI 成为创作伙伴之前的项目探索", en: "Projects from before AI became part of my creative process" },
     compact: true
   }
 ];
