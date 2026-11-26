@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { categories, siteCopy } from "@/data/site";
+import { siteCopy } from "@/data/site";
 import { useLanguage } from "@/context/language-context";
 
 export function SiteFooter() {
@@ -34,13 +33,6 @@ export function SiteFooter() {
                 {link.label}
               </span>
             </a>
-          ))}
-        </div>
-        <div className="flex gap-6">
-          {categories.map((category) => (
-            <Link key={category.key} href={category.href} className="focus-ring rounded transition-colors hover:text-white">
-              {t(category.label)}
-            </Link>
           ))}
         </div>
       </div>
