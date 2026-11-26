@@ -203,7 +203,7 @@ export function AgentDemo() {
   const waiting = busy && messages[messages.length - 1]?.role === "user";
 
   return (
-    <div className="relative overflow-hidden rounded-[18px] border border-white/10 bg-white/[0.035] shadow-card backdrop-blur-xl">
+    <div className="relative flex h-full flex-col overflow-hidden rounded-[18px] border border-white/10 bg-white/[0.035] shadow-card backdrop-blur-xl">
       <div className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-glow/10 blur-3xl" />
 
       <div className="relative flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
@@ -219,7 +219,7 @@ export function AgentDemo() {
         </span>
       </div>
 
-      <div ref={scrollRef} className="relative h-[22rem] space-y-4 overflow-y-auto px-5 py-5 [scrollbar-width:thin]">
+      <div ref={scrollRef} className="relative h-[22rem] space-y-4 overflow-y-auto px-5 py-5 [scrollbar-width:thin] lg:min-h-[22rem] lg:flex-1 lg:basis-0">
         <AgentBubble>{t(copy.greeting)}</AgentBubble>
 
         <AnimatePresence initial={false}>

@@ -38,7 +38,7 @@ export function ProfileSection() {
             </div>
           </Reveal>
 
-        <div className="mt-12 grid items-start gap-14 lg:grid-cols-[1fr_minmax(0,30rem)] lg:items-end lg:gap-20">
+        <div className="mt-12 grid items-start gap-14 lg:grid-cols-[1fr_minmax(0,30rem)] lg:items-stretch lg:gap-20">
           <div ref={lineRef} className="relative min-w-0 pl-8">
             <span className="absolute bottom-2 left-[5px] top-2 w-px bg-white/10" aria-hidden="true" />
             <motion.span
@@ -46,7 +46,7 @@ export function ProfileSection() {
               className="absolute bottom-2 left-[5px] top-2 w-px origin-top bg-gradient-to-b from-glow via-glow/60 to-ember/60"
               aria-hidden="true"
             />
-            <div className="space-y-8">
+            <div className="flex flex-col gap-8 lg:h-full lg:justify-between lg:gap-6">
               {intro.map((paragraph, index) => (
                 <Reveal key={index} delay={index * 0.08}>
                   <div className="relative">
@@ -54,14 +54,14 @@ export function ProfileSection() {
                       className="absolute -left-8 top-[0.55rem] h-[11px] w-[11px] rounded-full border border-glow/60 bg-ink shadow-[0_0_12px_rgba(130,217,255,0.45)]"
                       aria-hidden="true"
                     />
-                    <p className="max-w-2xl text-base leading-8 text-white/68 sm:text-lg sm:leading-9">{t(paragraph)}</p>
+                    <p className="max-w-2xl text-base leading-8 text-white/68 sm:text-lg sm:leading-9 lg:leading-[1.8]">{t(paragraph)}</p>
                   </div>
                 </Reveal>
               ))}
             </div>
           </div>
 
-        <Reveal delay={0.12} className="min-w-0 lg:self-end">
+        <Reveal delay={0.12} className="min-w-0">
           <AgentDemo />
         </Reveal>
         </div>
