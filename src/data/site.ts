@@ -592,7 +592,7 @@ export const projects: Project[] = [
   {
     slug: "moodium",
     category: "uiux",
-    section: "ai-product",
+    section: "product-design",
     title: { zh: "Moodium", en: "Moodium" },
     date: "2026.11",
     tags: {
