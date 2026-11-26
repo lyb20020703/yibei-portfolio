@@ -185,7 +185,7 @@ export const portfolioSections: PortfolioSection[] = [
   {
     key: "archive",
     label: { zh: "往期项目", en: "Earlier Work" },
-    scope: { zh: "在 AI 成为创作伙伴之前的项目探索", en: "Projects from before AI became part of my creative process" },
+    scope: { zh: "前 AI 时代的项目", en: "Pre-AI projects" },
     compact: true
   }
 ];
