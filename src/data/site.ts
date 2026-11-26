@@ -451,6 +451,24 @@ export const projects: Project[] = [
     }
   },
   {
+    slug: "billionaire",
+    category: "games",
+    section: "games",
+    placeholder: true,
+    title: { zh: "谁能成为亿万负喵", en: "Billionaire" },
+    date: "",
+    tags: {
+      zh: ["Unity", "肉鸽卡牌", "游戏 Demo"],
+      en: ["Unity", "Roguelike Deckbuilder", "Game Demo"]
+    },
+    excerpt: {
+      zh: "一款 2D 肉鸽卡牌游戏 Demo。在七天内花光一亿元，通过商业街探索、卡牌战斗与构筑成长，挑战更高的负债评级。",
+      en: "A 2D roguelike card game demo. Spend one hundred million in seven days through shopping-street exploration, card battles, and deckbuilding to earn a higher debt rating."
+    },
+    cover: { tone: "green", label: "Billionaire" },
+    assets: projectAssets("games", "billionaire")
+  },
+  {
     slug: "let-her-talk",
     category: "games",
     section: "archive",
